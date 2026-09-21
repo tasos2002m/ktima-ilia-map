@@ -199,10 +199,11 @@ footer.pubfoot{ padding-block:44px 60px; }
 .action-item .n{ font-family:var(--mono); font-weight:700; font-size:15px; flex:none; color:var(--text); align-self:center; }
 
 /* Overview grid: map + field rail */
-.ov-grid{ display:grid; grid-template-columns:minmax(0,62%) minmax(0,38%); gap:16px; margin-bottom:26px; align-items:start; }
+.ov-grid{ display:grid; grid-template-columns:minmax(0,72%) minmax(0,28%); gap:16px; margin-bottom:26px; align-items:start; }
 @media (max-width:1080px){ .ov-grid{ grid-template-columns:1fr; } }
 .map-embed{ }
-.map-embed iframe{ width:100%; height:600px; border:1px solid var(--border); border-radius:12px; display:block; background:var(--surface-2); }
+.map-embed iframe{ width:100%; height:680px; border:1px solid var(--border); border-radius:12px; display:block; background:var(--surface-2); }
+@media (max-width:640px){ .map-embed iframe{ height:420px; } }
 .map-caption{ font-size:12px; color:var(--text-dim); margin-top:8px; line-height:1.5; }
 .live-map-cta{ display:inline-block; margin-top:10px; padding:9px 16px; background:var(--olive); color:#fff; font-family:var(--body); font-weight:600; font-size:13px; border-radius:8px; text-decoration:none; }
 .live-map-cta:hover{ opacity:.9; }
@@ -305,17 +306,104 @@ select.chip-select{ font-family:var(--body); font-size:12.5px; font-weight:600; 
   header.hero{ padding-block:36px 30px; }
   section.pub{ padding-block:38px; }
 }
+
+/* ============ HERO STATUS STRIP ============ */
+.hero-status{ margin-top:28px; background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:18px 20px; }
+.hero-status .hs-top{ display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:14px; }
+.hero-status .hs-label{ font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--text-faint); font-weight:700; display:flex; align-items:center; gap:7px;}
+.hero-status .hs-label .pulse2{ width:6px;height:6px;border-radius:50%; background:var(--ok); }
+.hs-counts{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:10px; overflow:hidden; }
+@media (max-width:520px){ .hs-counts{ grid-template-columns:repeat(2,1fr);} }
+.hs-count{ background:var(--surface); padding:12px 14px; }
+.hs-count .icon{ font-size:14px; }
+.hs-count .n{ font-family:var(--mono); font-size:22px; font-weight:700; font-variant-numeric:tabular-nums; margin-top:2px; }
+.hs-count .l{ font-size:11px; color:var(--text-dim); margin-top:2px; }
+.hero-status .hs-foot{ display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-top:14px; padding-top:14px; border-top:1px solid var(--border); }
+.hero-status .hs-msg{ font-size:13.5px; font-weight:600; }
+.hero-status .hs-msg b{ color:var(--citrus-ink); }
+
+/* ============ METHOD CATEGORIES (Evidence & Methodology) ============ */
+.method-cat{ margin-top:30px; }
+.method-cat:first-of-type{ margin-top:0; }
+.method-cat-head{ display:flex; align-items:baseline; gap:10px; margin-bottom:12px; }
+.method-cat-head h3{ font-size:15.5px; }
+.method-cat-head .n{ font-family:var(--mono); font-size:11px; color:var(--text-faint); }
+
+/* Signal / Type / Source reliability table */
+.signal-table th:nth-child(2), .signal-table td:nth-child(2){ white-space:nowrap; }
+
+/* ============ FIELDS TOOLBAR (search + view toggle) ============ */
+.fields-toolbar{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:14px; }
+.field-search{ font-family:var(--body); font-size:13px; padding:8px 14px; border-radius:999px; border:1px solid var(--border); background:var(--surface); color:var(--text); min-width:200px; flex:1; }
+.field-search:focus{ outline:2px solid var(--olive-light); outline-offset:1px; }
+.view-toggle{ display:flex; border:1px solid var(--border); border-radius:999px; overflow:hidden; flex:none; }
+.view-toggle button{ font-family:var(--body); font-size:12.5px; font-weight:600; padding:8px 14px; border:none; background:var(--surface); color:var(--text-dim); cursor:pointer; }
+.view-toggle button[aria-pressed="true"]{ background:var(--olive); color:#fff; }
+
+/* Fields table view */
+.field-row{ cursor:pointer; }
+.field-row:hover{ background:var(--surface-2); }
+.field-row .fr-crop{ font-weight:700; }
+.field-row .fr-kaek{ font-family:var(--mono); font-size:10.5px; color:var(--text-faint); }
+.status-pill{ display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:700; padding:3px 9px; border-radius:999px; white-space:nowrap; }
+.status-pill.sev-critical{ background:var(--alert-bg); color:var(--alert); }
+.status-pill.sev-attention{ background:var(--citrus-bg); color:var(--citrus-ink); }
+.status-pill.sev-monitor{ background:var(--warn-bg); color:var(--warn); }
+.status-pill.sev-normal{ background:var(--ok-bg); color:var(--ok); }
+.riskflag-cell{ font-size:11.5px; color:var(--text-dim); }
+
+/* Trend text with sparkline */
+.trendline{ display:inline-flex; align-items:center; gap:6px; }
+.trendline svg{ display:block; flex:none; }
+.trend-val{ font-family:var(--mono); }
+
+/* Field detail: state-first sections */
+.state-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:10px 16px; margin-top:2px; }
+@media (max-width:420px){ .state-grid{ grid-template-columns:1fr; } }
+.state-item{ padding:10px 12px; background:var(--surface-2); border-radius:10px; }
+.state-item .lbl{ font-size:11px; color:var(--text-dim); font-weight:600; }
+.state-item .val{ font-family:var(--mono); font-size:16px; font-weight:700; margin-top:3px; display:flex; align-items:center; gap:7px; }
+.state-item .val .delta{ font-family:var(--body); font-size:11px; font-weight:700; }
+.whatchanged{ font-size:13px; color:var(--text-dim); line-height:1.6; margin-top:10px; }
+.action-banner{ display:flex; gap:12px; align-items:flex-start; padding:14px; border-radius:12px; margin-top:2px; }
+.action-banner.sev-critical{ background:var(--alert-bg); }
+.action-banner.sev-attention{ background:var(--citrus-bg); }
+.action-banner.sev-monitor{ background:var(--warn-bg); }
+.action-banner.sev-normal{ background:var(--ok-bg); }
+.action-banner .icon{ font-size:20px; line-height:1.2; flex:none; }
+.action-banner .t{ font-weight:700; font-size:14px; }
+.action-banner .d{ font-size:12.5px; margin-top:3px; line-height:1.5; opacity:.9; }
+.info-note{ font-size:11px; color:var(--text-faint); margin-top:6px; font-style:italic; }
+
+/* Action center — larger, primary element */
+.action-center{ padding:22px 22px 10px; }
+.action-center h3{ font-size:18px; }
+.ac-reasons{ margin-top:4px; display:flex; flex-direction:column; gap:3px; }
+.ac-reasons .reason{ font-size:12px; color:var(--text-dim); display:flex; gap:6px; }
+.ac-reasons .reason b{ color:var(--text); font-family:var(--mono); font-weight:700; }
+.ac-cta{ display:block; text-align:center; padding:12px; margin:10px -22px 0; border-top:1px solid var(--border); font-weight:700; font-size:13px; color:var(--olive-ink); cursor:pointer; background:none; border-left:none; border-right:none; border-bottom:none; width:calc(100% + 44px); font-family:var(--body); }
+.ac-cta:hover{ background:var(--surface-2); }
+
+/* Footer minimal */
+.foot-links{ display:flex; gap:16px; flex-wrap:wrap; margin-top:10px; }
+.foot-links a{ font-size:12.5px; font-weight:600; color:var(--text-dim); text-decoration:none; }
+.foot-links a:hover{ color:var(--olive-ink); }
+.foot-copyright{ font-size:11.5px; color:var(--text-faint); margin-top:18px; padding-top:18px; border-top:1px solid var(--border); }
+
+/* Data freshness badge */
+.freshness{ display:inline-flex; align-items:center; gap:7px; font-family:var(--mono); font-size:11.5px; color:var(--text-dim); background:var(--surface-2); border:1px solid var(--border); border-radius:999px; padding:5px 12px; }
+.freshness .d{ width:6px;height:6px;border-radius:50%; background:var(--ok); flex:none; }
 </style>
 
 <nav class="topnav">
   <div class="wrap inner">
     <div class="brand"><span class="dot"></span>AgroScope</div>
     <div class="links">
-      <a href="#live">LIVE FARM</a>
-      <a href="#features">HOW IT WORKS</a>
-      <a href="#method">EVIDENCE &amp; METHODOLOGY</a>
-      <a href="#scale">SCALABILITY</a>
-      <a href="#contact">CONTACT</a>
+      <a href="#app">Η ΕΦΑΡΜΟΓΗ</a>
+      <a href="#features">ΠΩΣ ΛΕΙΤΟΥΡΓΕΙ</a>
+      <a href="#method">ΣΤΟΙΧΕΙΑ &amp; ΜΕΘΟΔΟΛΟΓΙΑ</a>
+      <a href="#scale">ΕΠΕΚΤΑΣΙΜΟΤΗΤΑ</a>
+      <a href="#contact">ΕΠΙΚΟΙΝΩΝΙΑ</a>
     </div>
   </div>
 </nav>
@@ -335,175 +423,23 @@ select.chip-select{ font-family:var(--body); font-size:12.5px; font-weight:600; 
       <div class="kpi-row">
         <div class="kpi"><div class="n">29</div><div class="l">αγροτεμάχια (KAEK)</div></div>
         <div class="kpi"><div class="n">12</div><div class="l">κατηγορίες καλλιεργειών</div></div>
-        <div class="kpi"><div class="n">28+</div><div class="l">risk models</div></div>
-        <div class="kpi"><div class="n">Daily</div><div class="l">monitoring</div></div>
+        <div class="kpi"><div class="n">28+</div><div class="l">μοντέλα κινδύνου</div></div>
+        <div class="kpi"><div class="n">Καθημερινά</div><div class="l">αυτόματη ενημέρωση</div></div>
+      </div>
+    </div>
+    <div class="hero-status">
+      <div class="hs-top">
+        <div class="hs-label"><span class="pulse2"></span>ΣΗΜΕΡΑ — 29 αγροτεμάχια παρακολουθούνται</div>
+        <span class="freshness" id="heroFreshness"><span class="d"></span><span id="heroFreshnessText">φόρτωση…</span></span>
+      </div>
+      <div class="hs-counts" id="heroCounts"></div>
+      <div class="hs-foot">
+        <div class="hs-msg" id="heroAttentionMsg">Υπολογισμός σημερινής κατάστασης…</div>
+        <a class="btn btn-primary" href="#app" id="heroCtaFields">Προβολή αγροτεμαχίων →</a>
       </div>
     </div>
   </div>
 </header>
-
-<section class="pub" id="live">
-  <div class="wrap">
-    <div class="section-head">
-      <div>
-        <p class="eyebrow">Live στο χωράφι</p>
-        <h2>Το κτήμα, όπως το βλέπει ο δορυφόρος</h2>
-        <p class="desc">29 πραγματικά αγροτεμάχια, αυτόματη ανάλυση Sentinel-2 + Sentinel-1 + καιρικά δεδομένα. Πάτησε «Δες το κτήμα» για την πλήρη εφαρμογή — χάρτη, κάρτες αγροτεμαχίων, ειδοποιήσεις και μεθοδολογία.</p>
-      </div>
-      <a class="btn btn-primary" href="#app">Άνοιγμα εφαρμογής →</a>
-    </div>
-    <div class="map-embed">
-      <iframe src="embedded_map.html" title="Διαδραστικός χάρτης κτήματος" loading="lazy"></iframe>
-      <a href="https://tasos2002m.github.io/ktima-ilia-map/Diadrastikos_Xartis_Ktima_Ilia.html" target="_blank" rel="noopener" class="live-map-cta">Δες τον πλήρη ζωντανό δορυφορικό χάρτη →</a>
-      <p class="map-caption">Ο χάρτης δείχνει τα 29 πραγματικά αγροτεμάχια και την καταλληλότητα θέσης (χρώματα). Για ανάλυση ανά αγροτεμάχιο — υγεία καλλιέργειας, έδαφος, καιρός, εχθροί/ασθένειες — χρησιμοποίησε την εφαρμογή παρακάτω.</p>
-    </div>
-  </div>
-</section>
-
-<section class="pub" id="features">
-  <div class="wrap">
-    <div class="section-head">
-      <div>
-        <p class="eyebrow">Το σύστημα</p>
-        <h2>Τέσσερις στρώσεις ανάλυσης, μία απόφαση</h2>
-        <p class="desc">Κάθε αγροτεμάχιο περνάει καθημερινά από 4 ανεξάρτητες αναλύσεις — καμία δεν βασίζεται σε επισκόπηση πεδίου.</p>
-      </div>
-    </div>
-    <div class="feat-grid">
-      <details class="feat" open>
-        <summary class="feat-head">
-          <div class="feat-ic" style="background:var(--info-bg); color:var(--info);">☁</div>
-          <div><div class="feat-title">Καιρός</div><div class="feat-sub">6 ανεξάρτητα υποσυστήματα</div></div>
-          <span class="feat-chevron">⌄</span>
-        </summary>
-        <div class="feat-body">
-          <ul>
-            <li><b>Καιρικοί κίνδυνοι</b> — θερμικό στρες, άνεμος, βροχή, χαλάζι, με ξεχωριστά κατώφλια ανά φαινόμενο, ανά ημερομηνία.</li>
-            <li><b>Παγετός</b> — πρόβλεψη 16 ημερών ανά αγροτεμάχιο, με περιθώριο ασφαλείας 1°C.</li>
-            <li><b>Ισοζύγιο νερού</b> — ημερήσιο ETc (FAO-56 Kc) και πρόταση άρδευσης ανά KAEK.</li>
-            <li><b>Θερμικό στρες</b> — κατώφλι ανά καλλιέργεια/στάδιο ανάπτυξης, ρητά σημειωμένο όταν είναι βιβλιογραφική εκτίμηση.</li>
-          </ul>
-        </div>
-      </details>
-      <details class="feat">
-        <summary class="feat-head">
-          <div class="feat-ic" style="background:var(--citrus-bg); color:var(--citrus-ink);">⚠</div>
-          <div><div class="feat-title">Εχθροί &amp; ασθένειες</div><div class="feat-sub">Μοντέλα βαθμοημερών (GDD) + Verticillium</div></div>
-          <span class="feat-chevron">⌄</span>
-        </summary>
-        <div class="feat-body">
-          <ul>
-            <li><b>Εχθροί/ασθένειες × καιρός</b> — 28+ κανόνες βιβλιογραφικά τεκμηριωμένοι, ενεργοποιούνται αυτόματα ανά καλλιέργεια.</li>
-            <li><b>Verticillium (ελιά)</b> — ξεχωριστό μοντέλο κινδύνου βάσει θερμοκρασίας εδάφους, εφαρμόζεται στα αγροτεμάχια ελιάς.</li>
-          </ul>
-        </div>
-      </details>
-      <details class="feat">
-        <summary class="feat-head">
-          <div class="feat-ic" style="background:var(--ok-bg); color:var(--ok);">✦</div>
-          <div><div class="feat-title">Υγεία καλλιέργειας</div><div class="feat-sub">Multi-index + ανίχνευση ανωμαλιών</div></div>
-          <span class="feat-chevron">⌄</span>
-        </summary>
-        <div class="feat-body">
-          <ul>
-            <li><b>CVI</b> — σύνθετος δείκτης (PCA πάνω σε NDVI/NDRE/NDMI/PSRI), όχι απλό NDVI.</li>
-            <li><b>Ζώνες απόδοσης</b> — Χαμηλή/Μεσαία/Υψηλή ανά αγροτεμάχιο.</li>
-            <li><b>Ανίχνευση ανωμαλιών</b> — σύγκριση με ιστορικό (z-score), ξεχωρίζει νέα φύτευση από πραγματικό πρόβλημα.</li>
-            <li><b>Sentinel-2 πολυφασματικά</b> — NDVI/NDRE/NDMI/PSRI σε κάθε πέρασμα (~5 μέρες κύκλος επανεπίσκεψης).</li>
-          </ul>
-        </div>
-      </details>
-      <details class="feat">
-        <summary class="feat-head">
-          <div class="feat-ic" style="background:var(--warn-bg); color:var(--warn);">◈</div>
-          <div><div class="feat-title">Καταλληλότητα &amp; έδαφος</div><div class="feat-sub">Πολυκριτηριακό μοντέλο, πλήρως βιβλιογραφικό</div></div>
-          <span class="feat-chevron">⌄</span>
-        </summary>
-        <div class="feat-body">
-          <ul>
-            <li><b>Suitability model</b> — στάθμιση Προσανατολισμού/Κλίσης/Εδάφους/CVI, καμία σταθερά χωρίς βιβλιογραφική πηγή.</li>
-            <li><b>Υγρασία εδάφους</b> — ραντάρ Sentinel-1, με ιστορική σημείωση ανωμαλίας ανά αγροτεμάχιο.</li>
-            <li><b>Ριζόστρωμα ανά ηλικία</b> — νεόφυτο/ενδιάμεσο/ώριμο, δυναμικό βάθος κατά FAO-56.</li>
-          </ul>
-        </div>
-      </details>
-      <details class="feat">
-        <summary class="feat-head">
-          <div class="feat-ic" style="background:var(--citrus-bg); color:var(--citrus-ink);">⟳</div>
-          <div><div class="feat-title">Αυτοματισμός</div><div class="feat-sub">Μηδενική ανθρώπινη παρέμβαση</div></div>
-          <span class="feat-chevron">⌄</span>
-        </summary>
-        <div class="feat-body">
-          <ul>
-            <li><b>Αυτόματο καθημερινό τρέξιμο</b> — εντοπίζει μόνο του νέα δορυφορική εικόνα, χωρίς χειροκίνητη ενεργοποίηση.</li>
-            <li><b>Αναφορές email</b> — αυτόματη ενημέρωση με προειδοποιήσεις (παγετός, ξηρασία, εχθροί).</li>
-            <li><b>Διαδραστικός χάρτης</b> — αυτόματη δημιουργία, ανά ημερομηνία εικόνας.</li>
-            <li><b>Αυτόματο cloud pipeline</b> — τρέχει χωρίς εξάρτηση από desktop GIS λογισμικό.</li>
-          </ul>
-        </div>
-      </details>
-    </div>
-  </div>
-</section>
-
-<section class="pub" id="method">
-  <div class="wrap">
-    <div class="section-head">
-      <div>
-        <p class="eyebrow">Αξιοπιστία</p>
-        <h2>Κάθε αριθμός, μια πηγή</h2>
-        <p class="desc">Καμία σταθερά στο μοντέλο δεν έχει προσαρμοστεί (curve-fit) στα δικά μας δεδομένα — κάθε κατώφλι, βάρος ή εξίσωση ιχνηλατείται σε δημοσιευμένη βιβλιογραφία ή επίσημη μεθοδολογία.</p>
-      </div>
-    </div>
-    <div class="method-grid">
-      <div class="mcard"><div class="w">AHP</div><div class="t">Πολυκριτηριακό μοντέλο καταλληλότητας</div><div class="d">Weighted-sum στάθμιση κριτηρίων (γενική γεωργική AHP βιβλιογραφία) — όχι στατιστικό ταίριασμα στα δεδομένα του κτήματος.</div></div>
-      <div class="mcard"><div class="w">FAO-56</div><div class="t">Ριζόστρωμα &amp; ισοζύγιο νερού</div><div class="d">Επίσημος οδηγός FAO (Allen et al. 1998) για βάθος ρίζας ανά καλλιέργεια/ηλικία και υπολογισμό ETc / πρόταση άρδευσης.</div></div>
-      <div class="mcard"><div class="w">z-score</div><div class="t">Ανίχνευση ανωμαλιών βλάστησης &amp; υγρασίας</div><div class="d">Τυποποιημένος δείκτης βλάστησης/υγρασίας έναντι ιστορικού της ίδιας θέσης — ίδια λογική με επίσημους δείκτες ξηρασίας.</div></div>
-      <div class="mcard"><div class="w">28+</div><div class="t">Κανόνες καιρού × εχθρών (degree-day)</div><div class="d">Μοντέλα βαθμοημερών (GDD) για κύκλο ζωής εντόμων, κανόνες ασθενειών βάσει θερμοκρασίας/υγρασίας — κάθε ένα με δηλωμένο επίπεδο βεβαιότητας.</div></div>
-    </div>
-
-    <div style="margin-top:28px;">
-      <h3 style="font-size:15px; margin-bottom:6px;">Λεξιλόγιο βεβαιότητας — πώς να διαβάσεις κάθε αριθμό</h3>
-      <p style="font-size:13px; color:var(--text-dim); max-width:70ch;">Κάθε τιμή στην εφαρμογή φέρει ρητά έναν από τους παρακάτω χαρακτηρισμούς. Ποτέ δεν παρουσιάζουμε μια εκτίμηση μοντέλου ως άμεση παρατήρηση πεδίου.</p>
-      <div class="prov-grid">
-        <div class="prov"><div class="k observed">Observed / Παρατηρημένο</div><div class="v">Απευθείας μέτρηση από δορυφόρο ή αισθητήρα — π.χ. NDVI, CVI, υγρασία εδάφους (Sentinel-1/2).</div></div>
-        <div class="prov"><div class="k modelled">Modelled / Μοντελοποιημένο</div><div class="v">Έξοδος υπολογιστικού μοντέλου πάνω σε παρατηρημένα δεδομένα — π.χ. στάδιο εχθρού (GDD), κίνδυνος Verticillium.</div></div>
-        <div class="prov"><div class="k estimated">Estimated / Εκτίμηση</div><div class="v">Τιμή με γνωστή αβεβαιότητα πηγής ή μεθόδου — π.χ. ταυτότητα καλλιέργειας όταν βασίζεται σε δήλωση ΟΣΔΕ.</div></div>
-        <div class="prov"><div class="k lit">Literature-based / Βιβλιογραφικό</div><div class="v">Σταθερά ή κατώφλι από δημοσιευμένη πηγή, όχι fitted στα δεδομένα του κτήματος — π.χ. βάθος ριζοστρώματος FAO-56.</div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="pub" id="scale" style="border-bottom:none;">
-  <div class="wrap">
-    <div class="section-head">
-      <div>
-        <p class="eyebrow">Επεκτασιμότητα</p>
-        <h2>Χτισμένο για όλη την Ελλάδα, όχι μόνο για ένα κτήμα</h2>
-        <p class="desc">Το σύστημα καιρού/εχθρών καλύπτει ήδη 12 επίσημες κατηγορίες καλλιεργειών (ΕΛΣΤΑΤ/ΥΠΑΑΤ) — ενεργοποιείται αυτόματα ανάλογα με τι δηλώνει κάθε παραγωγός, χωρίς αλλαγή κώδικα. (Τα κηπευτικά θερμοκηπίου εξαιρούνται σκόπιμα — η δορυφορική παρακολούθηση δεν έχει νόημα μέσα από κάλυψη θερμοκηπίου.)</p>
-      </div>
-    </div>
-    <div class="crop-grid">
-      <div class="crop-chip live"><span class="st"></span>Ελιά &amp; εσπεριδοειδή</div>
-      <div class="crop-chip live"><span class="st"></span>Ψυχανθή / κτηνοτροφικά</div>
-      <div class="crop-chip ready"><span class="st"></span>Φυλλοβόλα δέντρα</div>
-      <div class="crop-chip ready"><span class="st"></span>Ακρόδρυα</div>
-      <div class="crop-chip ready"><span class="st"></span>Αμπέλι</div>
-      <div class="crop-chip ready"><span class="st"></span>Σιτηρά</div>
-      <div class="crop-chip ready"><span class="st"></span>Καλαμπόκι</div>
-      <div class="crop-chip ready"><span class="st"></span>Ρύζι</div>
-      <div class="crop-chip ready"><span class="st"></span>Βαμβάκι</div>
-      <div class="crop-chip ready"><span class="st"></span>Ελαιούχα (ηλίανθος/σόγια)</div>
-      <div class="crop-chip ready"><span class="st"></span>Βιομηχανικές (τεύτλα/καπνός)</div>
-      <div class="crop-chip ready"><span class="st"></span>Λαχανικά υπαίθρου</div>
-    </div>
-    <p style="font-size:12.5px; color:var(--text-dim); margin-top:16px; display:flex; gap:18px;">
-      <span><span style="color:var(--ok)">●</span> ζωντανό στο πραγματικό κτήμα</span>
-      <span><span style="color:var(--info)">●</span> κώδικας έτοιμος, εν αναμονή δήλωσης καλλιέργειας</span>
-    </p>
-  </div>
-</section>
 
 <!-- ================= APPLICATION DASHBOARD ================= -->
 <div id="app">
@@ -512,25 +448,25 @@ select.chip-select{ font-family:var(--body); font-size:12.5px; font-weight:600; 
       <div class="sb-brand"><span class="dot"></span>AgroScope</div>
       <div class="sb-group">
         <div class="sb-label">Εφαρμογή</div>
-        <button class="sb-link" data-panel="overview"><span class="ic">◆</span>Overview</button>
-        <button class="sb-link" data-panel="fields"><span class="ic">▦</span>Fields</button>
-        <button class="sb-link" data-panel="satellite"><span class="ic">✦</span>Satellite</button>
-        <button class="sb-link" data-panel="weather"><span class="ic">☁</span>Weather</button>
-        <button class="sb-link" data-panel="risk"><span class="ic">⚠</span>Risk</button>
+        <button class="sb-link" data-panel="overview"><span class="ic">◆</span>Επισκόπηση</button>
+        <button class="sb-link" data-panel="fields"><span class="ic">▦</span>Αγροτεμάχια</button>
+        <button class="sb-link" data-panel="satellite"><span class="ic">✦</span>Δορυφόρος</button>
+        <button class="sb-link" data-panel="weather"><span class="ic">☁</span>Καιρός</button>
+        <button class="sb-link" data-panel="risk"><span class="ic">⚠</span>Κίνδυνοι</button>
       </div>
       <div class="sb-group">
         <div class="sb-label">Σύστημα</div>
-        <button class="sb-link" data-panel="reports"><span class="ic">▤</span>Reports</button>
-        <button class="sb-link" data-panel="methodology"><span class="ic">◈</span>Methodology</button>
-        <button class="sb-link" data-panel="settings"><span class="ic">⚙</span>Settings</button>
+        <button class="sb-link" data-panel="reports"><span class="ic">▤</span>Αναφορές</button>
+        <button class="sb-link" data-panel="methodology"><span class="ic">◈</span>Μεθοδολογία</button>
+        <button class="sb-link" data-panel="settings"><span class="ic">⚙</span>Ρυθμίσεις</button>
       </div>
     </aside>
 
     <main class="appmain">
       <div class="app-header">
         <div>
-          <h2 id="greetH2">Καλημέρα, Αναστάσιε</h2>
-          <div class="sub" id="dashSub">29 αγροτεμάχια υπό παρακολούθηση</div>
+          <h2 id="greetH2">Επισκόπηση κτήματος</h2>
+          <div class="sub" id="dashSub">29 αγροτεμάχια υπό παρακολούθηση · Ενημερώθηκε σήμερα</div>
           <div class="live-bar"><span class="pulse"></span><span id="liveBarText">αυτόματη καθημερινή ενημέρωση</span></div>
         </div>
         <div class="meta">
@@ -551,7 +487,7 @@ select.chip-select{ font-family:var(--body); font-size:12.5px; font-weight:600; 
           <div class="map-embed">
             <iframe src="embedded_map.html" title="Διαδραστικός χάρτης κτήματος" loading="lazy"></iframe>
             <a href="https://tasos2002m.github.io/ktima-ilia-map/Diadrastikos_Xartis_Ktima_Ilia.html" target="_blank" rel="noopener" class="live-map-cta">Πλήρης δορυφορικός χάρτης →</a>
-            <p class="map-caption">Ο χάρτης δεν συνδέεται δυναμικά με τα φίλτρα δεξιά (ξεχωριστό αρχείο) — δείχνει πάντα και τα 29 πραγματικά όρια αγροτεμαχίων με χρωματισμό βάσει καταλληλότητας θέσης.</p>
+            <p class="map-caption">Ο χάρτης δείχνει πάντα όλα τα 29 πραγματικά όρια αγροτεμαχίων με χρωματισμό βάσει καταλληλότητας θέσης· ενημερώνεται ξεχωριστά από τα φίλτρα δεξιά.</p>
           </div>
           <div class="rail">
             <h4>Αγροτεμάχια που χρειάζονται προσοχή</h4>
@@ -567,8 +503,16 @@ select.chip-select{ font-family:var(--body); font-size:12.5px; font-weight:600; 
 
       <!-- FIELDS -->
       <section class="panel" id="panel-fields" hidden>
+        <div class="fields-toolbar">
+          <input class="field-search" id="fieldSearch" type="search" placeholder="Αναζήτηση KAEK ή καλλιέργειας…" aria-label="Αναζήτηση αγροτεμαχίων">
+          <div class="view-toggle" id="viewToggle">
+            <button data-view="table" aria-pressed="true">Λίστα</button>
+            <button data-view="grid" aria-pressed="false">Κάρτες</button>
+          </div>
+        </div>
         <div class="filters" id="fieldFilters"></div>
-        <div class="parcel-grid" id="fieldsGrid"></div>
+        <div id="fieldsTableWrap"></div>
+        <div class="parcel-grid" id="fieldsGrid" hidden></div>
       </section>
 
       <!-- SATELLITE -->
@@ -622,13 +566,13 @@ select.chip-select{ font-family:var(--body); font-size:12.5px; font-weight:600; 
           <div class="tablewrap"><table class="dtable" id="fieldAlertsTable"></table></div>
         </div>
         <div class="farmwide">
-          <h4>Εχθροί &amp; ασθένειες — εκτίμηση μοντέλου (όλο το κτήμα) <span class="provtag modelled" style="margin-left:6px;">Modelled — GDD</span></h4>
-          <div class="note">ΕΚΤΙΜΗΣΗ σταδίου βάσει βαθμοημερών· ΟΧΙ πραγματική παρατήρηση πεδίου. Ίδιο μοντέλο εφαρμόζεται σε όλο το κτήμα.</div>
+          <h4>Κίνδυνος ασθένειας &amp; εχθρών — εκτίμηση μοντέλου (όλο το κτήμα) <span class="provtag modelled" style="margin-left:6px;">Modelled</span></h4>
+          <div class="note">Εκτίμηση σταδίου βάσει συσσώρευσης θερμοκρασίας (βαθμοήμερα, GDD) — δεν είναι πραγματική παρατήρηση πεδίου. Ίδιο μοντέλο εφαρμόζεται σε όλο το κτήμα.</div>
           <div id="pestPanel"></div>
         </div>
         <div class="farmwide" style="margin-top:14px;">
-          <h4>Verticillium (ελιά) <span class="provtag modelled" style="margin-left:6px;">Modelled — θερμοκρασία εδάφους</span></h4>
-          <div class="note">Αφορά μόνο τα αγροτεμάχια ελιάς· εφαρμόζεται στα 4 από τα 29.</div>
+          <h4>Verticillium (ελιά) <span class="provtag modelled" style="margin-left:6px;">Modelled</span></h4>
+          <div class="note">Εκτίμηση κινδύνου βάσει θερμοκρασίας εδάφους. Αφορά μόνο τα αγροτεμάχια ελιάς· εφαρμόζεται στα 4 από τα 29.</div>
           <div id="vertPanel"></div>
         </div>
       </section>
@@ -639,7 +583,7 @@ select.chip-select{ font-family:var(--body); font-size:12.5px; font-weight:600; 
           <div class="report-ic">▤</div>
           <div>
             <h3 style="margin-bottom:4px;">Αναφορά Excel / PDF</h3>
-            <p style="font-size:13px; color:var(--text-dim); line-height:1.6; max-width:60ch;">Το αυτόματο pipeline παράγει ήδη μια πλήρη αναφορά (Excel/PDF) με όλα τα αγροτεμάχια, δείκτες και προειδοποιήσεις, και αποστέλλεται με email καθημερινά. Αυτή η σελίδα δεν φιλοξενεί το αρχείο για κατέβασμα — για αντίγραφο, επικοινώνησε στα στοιχεία επαφής.</p>
+            <p style="font-size:13px; color:var(--text-dim); line-height:1.6; max-width:60ch;">Το αυτόματο σύστημα παράγει μια πλήρη αναφορά (Excel/PDF) με όλα τα αγροτεμάχια, δείκτες και προειδοποιήσεις, και αποστέλλεται με email καθημερινά. Αυτή η σελίδα δεν φιλοξενεί το αρχείο για κατέβασμα — για αντίγραφο, επικοινώνησε στα στοιχεία επαφής.</p>
           </div>
         </div>
         <div class="card">
@@ -688,8 +632,9 @@ select.chip-select{ font-family:var(--body); font-size:12.5px; font-weight:600; 
             <p style="font-size:13px; color:var(--text-dim); margin-top:6px;">Η εφαρμογή ακολουθεί αυτόματα το θέμα (φωτεινό/σκοτεινό) της συσκευής σου.</p>
           </div>
           <div>
-            <h3>Δεδομένα</h3>
-            <p style="font-size:13px; color:var(--text-dim); margin-top:6px;">Πηγή: αυτόματο pipeline Sentinel-1/Sentinel-2/Open-Meteo. 29 αγροτεμάχια, ενημέρωση σε κάθε νέα δορυφορική λήψη (~5ήμερος κύκλος) και καθημερινά για καιρό/άρδευση/παγετό.</p>
+            <h3>Φρεσκάδα δεδομένων</h3>
+            <p style="font-size:13px; color:var(--text-dim); margin-top:6px;" id="settingsFreshness">Έλεγχος…</p>
+            <p style="font-size:12.5px; color:var(--text-faint); margin-top:6px;">Πηγή: αυτόματη ανάλυση Sentinel-1, Sentinel-2 και καιρικών δεδομένων. 29 αγροτεμάχια, ενημέρωση σε κάθε νέα δορυφορική λήψη (~5ήμερος κύκλος) και καθημερινά για καιρό/άρδευση/παγετό.</p>
           </div>
           <div>
             <h3>Επικοινωνία</h3>
@@ -702,6 +647,192 @@ select.chip-select{ font-family:var(--body); font-size:12.5px; font-weight:600; 
   </div>
 </div>
 
+<section class="pub" id="features">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Το σύστημα</p>
+        <h2>Τέσσερις στρώσεις ανάλυσης, μία απόφαση</h2>
+        <p class="desc">Κάθε αγροτεμάχιο περνάει καθημερινά από 4 ανεξάρτητες αναλύσεις — καμία δεν βασίζεται σε επισκόπηση πεδίου.</p>
+      </div>
+    </div>
+    <div class="feat-grid">
+      <details class="feat" open>
+        <summary class="feat-head">
+          <div class="feat-ic" style="background:color-mix(in srgb, var(--olive) 15%, var(--surface)); color:var(--olive-ink);">☁</div>
+          <div><div class="feat-title">Καιρός</div><div class="feat-sub">6 ανεξάρτητα υποσυστήματα</div></div>
+          <span class="feat-chevron">⌄</span>
+        </summary>
+        <div class="feat-body">
+          <ul>
+            <li><b>Καιρικοί κίνδυνοι</b> — θερμικό στρες, άνεμος, βροχή, χαλάζι, με ξεχωριστά κατώφλια ανά φαινόμενο, ανά ημερομηνία.</li>
+            <li><b>Παγετός</b> — πρόβλεψη 16 ημερών ανά αγροτεμάχιο, με περιθώριο ασφαλείας 1°C.</li>
+            <li><b>Ισοζύγιο νερού</b> — ημερήσιο ETc (FAO-56 Kc) και πρόταση άρδευσης ανά KAEK.</li>
+            <li><b>Θερμικό στρες</b> — κατώφλι ανά καλλιέργεια/στάδιο ανάπτυξης, ρητά σημειωμένο όταν είναι βιβλιογραφική εκτίμηση.</li>
+          </ul>
+        </div>
+      </details>
+      <details class="feat">
+        <summary class="feat-head">
+          <div class="feat-ic" style="background:color-mix(in srgb, var(--olive) 15%, var(--surface)); color:var(--olive-ink);">⚠</div>
+          <div><div class="feat-title">Εχθροί &amp; ασθένειες</div><div class="feat-sub">Μοντέλα βαθμοημερών (GDD) + Verticillium</div></div>
+          <span class="feat-chevron">⌄</span>
+        </summary>
+        <div class="feat-body">
+          <ul>
+            <li><b>Εχθροί/ασθένειες × καιρός</b> — 28+ κανόνες βιβλιογραφικά τεκμηριωμένοι, ενεργοποιούνται αυτόματα ανά καλλιέργεια.</li>
+            <li><b>Verticillium (ελιά)</b> — ξεχωριστό μοντέλο κινδύνου βάσει θερμοκρασίας εδάφους, εφαρμόζεται στα αγροτεμάχια ελιάς.</li>
+          </ul>
+        </div>
+      </details>
+      <details class="feat">
+        <summary class="feat-head">
+          <div class="feat-ic" style="background:color-mix(in srgb, var(--olive) 15%, var(--surface)); color:var(--olive-ink);">✦</div>
+          <div><div class="feat-title">Υγεία καλλιέργειας</div><div class="feat-sub">Multi-index + ανίχνευση ανωμαλιών</div></div>
+          <span class="feat-chevron">⌄</span>
+        </summary>
+        <div class="feat-body">
+          <ul>
+            <li><b>CVI</b> — σύνθετος δείκτης (PCA πάνω σε NDVI/NDRE/NDMI/PSRI), όχι απλό NDVI.</li>
+            <li><b>Ζώνες απόδοσης</b> — Χαμηλή/Μεσαία/Υψηλή ανά αγροτεμάχιο.</li>
+            <li><b>Ανίχνευση ανωμαλιών</b> — σύγκριση με ιστορικό (z-score), ξεχωρίζει νέα φύτευση από πραγματικό πρόβλημα.</li>
+            <li><b>Sentinel-2 πολυφασματικά</b> — NDVI/NDRE/NDMI/PSRI σε κάθε πέρασμα (~5 μέρες κύκλος επανεπίσκεψης).</li>
+          </ul>
+        </div>
+      </details>
+      <details class="feat">
+        <summary class="feat-head">
+          <div class="feat-ic" style="background:color-mix(in srgb, var(--olive) 15%, var(--surface)); color:var(--olive-ink);">◈</div>
+          <div><div class="feat-title">Καταλληλότητα &amp; έδαφος</div><div class="feat-sub">Πολυκριτηριακό μοντέλο, πλήρως βιβλιογραφικό</div></div>
+          <span class="feat-chevron">⌄</span>
+        </summary>
+        <div class="feat-body">
+          <ul>
+            <li><b>Suitability model</b> — στάθμιση Προσανατολισμού/Κλίσης/Εδάφους/CVI, καμία σταθερά χωρίς βιβλιογραφική πηγή.</li>
+            <li><b>Υγρασία εδάφους</b> — ραντάρ Sentinel-1, με ιστορική σημείωση ανωμαλίας ανά αγροτεμάχιο.</li>
+            <li><b>Ριζόστρωμα ανά ηλικία</b> — νεόφυτο/ενδιάμεσο/ώριμο, δυναμικό βάθος κατά FAO-56.</li>
+          </ul>
+        </div>
+      </details>
+      <details class="feat">
+        <summary class="feat-head">
+          <div class="feat-ic" style="background:color-mix(in srgb, var(--olive) 15%, var(--surface)); color:var(--olive-ink);">⟳</div>
+          <div><div class="feat-title">Αυτοματισμός</div><div class="feat-sub">Μηδενική ανθρώπινη παρέμβαση</div></div>
+          <span class="feat-chevron">⌄</span>
+        </summary>
+        <div class="feat-body">
+          <ul>
+            <li><b>Αυτόματο καθημερινό τρέξιμο</b> — εντοπίζει μόνο του νέα δορυφορική εικόνα, χωρίς χειροκίνητη ενεργοποίηση.</li>
+            <li><b>Αναφορές email</b> — αυτόματη ενημέρωση με προειδοποιήσεις (παγετός, ξηρασία, εχθροί).</li>
+            <li><b>Διαδραστικός χάρτης</b> — αυτόματη δημιουργία, ανά ημερομηνία εικόνας.</li>
+            <li><b>Αυτόματη παρακολούθηση στο cloud</b> — καμία εγκατάσταση λογισμικού, καμία χειροκίνητη ενέργεια.</li>
+          </ul>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="pub" id="method">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Στοιχεία &amp; Μεθοδολογία</p>
+        <h2>Κάθε αριθμός, μια πηγή</h2>
+        <p class="desc">Αυτό είναι το επιστημονικό στρώμα του συστήματος — για όποιον θέλει να δει ακριβώς πώς υπολογίζεται κάθε δείκτης. Καμία σταθερά δεν έχει προσαρμοστεί (curve-fit) στα δικά μας δεδομένα· κάθε κατώφλι, βάρος ή εξίσωση ιχνηλατείται σε δημοσιευμένη βιβλιογραφία ή επίσημη μεθοδολογία.</p>
+      </div>
+    </div>
+
+    <div class="method-cat">
+      <div class="method-cat-head"><h3>☁ Δορυφόρος — Sentinel-2</h3><span class="n">Βλάστηση &amp; υγεία καλλιέργειας</span></div>
+      <div class="method-grid">
+        <div class="mcard"><div class="w">CVI</div><div class="t">Σύνθετος δείκτης υγείας</div><div class="d">PCA πάνω σε NDVI/NDRE/NDMI/PSRI από κάθε πέρασμα Sentinel-2 (~5 μέρες κύκλος επανεπίσκεψης) — πιο σταθερός δείκτης από το NDVI μόνο του.</div></div>
+        <div class="mcard"><div class="w">NDVI</div><div class="t">Δείκτης βλάστησης</div><div class="d">Άμεση μέτρηση πυκνότητας/υγείας φυλλώματος από πολυφασματική εικόνα — η βάση πάνω στην οποία χτίζεται το CVI.</div></div>
+      </div>
+    </div>
+
+    <div class="method-cat">
+      <div class="method-cat-head"><h3>◈ Έδαφος &amp; Νερό — Sentinel-1 + FAO-56</h3><span class="n">Υγρασία, ριζόστρωμα, άρδευση</span></div>
+      <div class="method-grid">
+        <div class="mcard"><div class="w">S-1</div><div class="t">Υγρασία εδάφους (ραντάρ)</div><div class="d">Μέτρηση ραντάρ Sentinel-1, ανεξάρτητη από συννεφιά — συγκρίνεται με το ιστορικό της ίδιας θέσης.</div></div>
+        <div class="mcard"><div class="w">FAO-56</div><div class="t">Ριζόστρωμα &amp; ισοζύγιο νερού</div><div class="d">Επίσημος οδηγός FAO (Allen et al. 1998) για βάθος ρίζας ανά καλλιέργεια/ηλικία και υπολογισμό ETc / πρόταση άρδευσης.</div></div>
+        <div class="mcard"><div class="w">AHP</div><div class="t">Καταλληλότητα θέσης</div><div class="d">Weighted-sum στάθμιση κριτηρίων εδάφους/κλίσης/προσανατολισμού/υγείας (γενική γεωργική AHP βιβλιογραφία) — όχι στατιστικό ταίριασμα στα δεδομένα του κτήματος.</div></div>
+      </div>
+    </div>
+
+    <div class="method-cat">
+      <div class="method-cat-head"><h3>✦ Ανίχνευση ανωμαλιών</h3><span class="n">Σύγκριση με ιστορικό</span></div>
+      <div class="method-grid">
+        <div class="mcard"><div class="w">z-score</div><div class="t">Ανωμαλίες βλάστησης &amp; υγρασίας</div><div class="d">Τυποποιημένος δείκτης έναντι ιστορικού της ίδιας θέσης — ίδια λογική με επίσημους δείκτες ξηρασίας. Ξεχωρίζει νέα φύτευση από πραγματικό πρόβλημα.</div></div>
+      </div>
+    </div>
+
+    <div class="method-cat">
+      <div class="method-cat-head"><h3>⚠ Εχθροί &amp; ασθένειες</h3><span class="n">Μοντέλα βαθμοημερών (GDD)</span></div>
+      <div class="method-grid">
+        <div class="mcard"><div class="w">28+</div><div class="t">Κανόνες καιρού × εχθρών</div><div class="d">Μοντέλα βαθμοημερών (GDD) για κύκλο ζωής εντόμων και κανόνες ασθενειών βάσει θερμοκρασίας/υγρασίας — κάθε ένα με δηλωμένο επίπεδο βεβαιότητας, βιβλιογραφικά τεκμηριωμένα.</div></div>
+        <div class="mcard"><div class="w">Vert.</div><div class="t">Verticillium (ελιά)</div><div class="d">Ξεχωριστό μοντέλο κινδύνου βάσει θερμοκρασίας εδάφους, εφαρμόζεται μόνο στα αγροτεμάχια ελιάς.</div></div>
+      </div>
+    </div>
+
+    <div style="margin-top:32px;">
+      <h3 style="font-size:15px; margin-bottom:6px;">Λεξιλόγιο βεβαιότητας — πώς να διαβάσεις κάθε αριθμό</h3>
+      <p style="font-size:13px; color:var(--text-dim); max-width:70ch;">Κάθε τιμή στην εφαρμογή φέρει ρητά έναν από τους παρακάτω χαρακτηρισμούς. Ποτέ δεν παρουσιάζουμε μια εκτίμηση μοντέλου ως άμεση παρατήρηση πεδίου. Δεν εμφανίζουμε ποσοστό βεβαιότητας που δεν προκύπτει από τα δεδομένα.</p>
+      <div class="prov-grid">
+        <div class="prov"><div class="k observed">Observed / Παρατηρημένο</div><div class="v">Απευθείας μέτρηση από δορυφόρο ή αισθητήρα — π.χ. NDVI, CVI, υγρασία εδάφους (Sentinel-1/2).</div></div>
+        <div class="prov"><div class="k modelled">Modelled / Μοντελοποιημένο</div><div class="v">Έξοδος υπολογιστικού μοντέλου πάνω σε παρατηρημένα δεδομένα — π.χ. στάδιο εχθρού (GDD), κίνδυνος Verticillium.</div></div>
+        <div class="prov"><div class="k estimated">Estimated / Εκτίμηση</div><div class="v">Τιμή με γνωστή αβεβαιότητα πηγής ή μεθόδου — π.χ. ταυτότητα καλλιέργειας όταν βασίζεται σε δήλωση ΟΣΔΕ.</div></div>
+        <div class="prov"><div class="k lit">Literature-based / Βιβλιογραφικό</div><div class="v">Σταθερά ή κατώφλι από δημοσιευμένη πηγή, όχι fitted στα δεδομένα του κτήματος — π.χ. βάθος ριζοστρώματος FAO-56.</div></div>
+      </div>
+    </div>
+
+    <div style="margin-top:28px;">
+      <h3 style="font-size:15px; margin-bottom:10px;">Ενδεικτικά σήματα, ανά πηγή</h3>
+      <div class="tablewrap">
+        <table class="dtable signal-table">
+          <thead><tr><th>Σήμα</th><th>Τύπος</th><th>Πηγή</th></tr></thead>
+          <tbody>
+            <tr><td>NDVI / CVI</td><td><span class="provtag observed" style="margin-left:0;">Observed</span></td><td>Sentinel-2</td></tr>
+            <tr><td>Υγρασία εδάφους</td><td><span class="provtag observed" style="margin-left:0;">Observed</span></td><td>Sentinel-1</td></tr>
+            <tr><td>Παγετός</td><td><span class="provtag estimated" style="margin-left:0;">Estimated</span></td><td>Πρόγνωση καιρού (16ήμερο)</td></tr>
+            <tr><td>Στάδιο κύκλου εχθρού</td><td><span class="provtag modelled" style="margin-left:0;">Modelled</span></td><td>Μοντέλο βαθμοημερών (GDD)</td></tr>
+            <tr><td>Βάθος ριζοστρώματος</td><td><span class="provtag lit" style="margin-left:0;">Literature-based</span></td><td>FAO-56 (Allen et al. 1998)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pub" id="scale" style="border-bottom:none;">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Επεκτασιμότητα</p>
+        <h2>Χτισμένο για όλη την Ελλάδα, όχι μόνο για ένα κτήμα</h2>
+        <p class="desc">Το σύστημα καιρού/εχθρών καλύπτει ήδη 12 επίσημες κατηγορίες καλλιεργειών (ΕΛΣΤΑΤ/ΥΠΑΑΤ) — ενεργοποιείται αυτόματα ανάλογα με τι δηλώνει κάθε παραγωγός, χωρίς αλλαγή κώδικα. (Τα κηπευτικά θερμοκηπίου εξαιρούνται σκόπιμα — η δορυφορική παρακολούθηση δεν έχει νόημα μέσα από κάλυψη θερμοκηπίου.)</p>
+      </div>
+    </div>
+    <div class="crop-grid">
+      <div class="crop-chip live"><span class="st"></span>Ελιά &amp; εσπεριδοειδή</div>
+      <div class="crop-chip live"><span class="st"></span>Ψυχανθή / κτηνοτροφικά</div>
+      <div class="crop-chip ready"><span class="st"></span>Φυλλοβόλα δέντρα</div>
+      <div class="crop-chip ready"><span class="st"></span>Ακρόδρυα</div>
+      <div class="crop-chip ready"><span class="st"></span>Αμπέλι</div>
+      <div class="crop-chip ready"><span class="st"></span>Σιτηρά</div>
+      <div class="crop-chip ready"><span class="st"></span>Καλαμπόκι</div>
+      <div class="crop-chip ready"><span class="st"></span>Ρύζι</div>
+      <div class="crop-chip ready"><span class="st"></span>Βαμβάκι</div>
+      <div class="crop-chip ready"><span class="st"></span>Ελαιούχα (ηλίανθος/σόγια)</div>
+      <div class="crop-chip ready"><span class="st"></span>Βιομηχανικές (τεύτλα/καπνός)</div>
+      <div class="crop-chip ready"><span class="st"></span>Λαχανικά υπαίθρου</div>
+    </div>
+    <p style="font-size:12.5px; color:var(--text-dim); margin-top:16px; display:flex; gap:18px;">
+      <span><span style="color:var(--ok)">●</span> ζωντανό στο πραγματικό κτήμα</span>
+      <span><span style="color:var(--info)">●</span> κώδικας έτοιμος, εν αναμονή δήλωσης καλλιέργειας</span>
+    </p>
+  </div>
+</section>
 <div class="modal-backdrop" id="modalBackdrop" hidden>
   <div class="modal" id="modalBody"></div>
 </div>
@@ -711,7 +842,12 @@ select.chip-select{ font-family:var(--body); font-size:12.5px; font-weight:600; 
     <div class="foot-grid">
       <div>
         <div class="foot-brand">AgroScope</div>
-        <p style="color:var(--text-dim); font-size:13.5px; margin-top:8px; max-width:40ch;">Precision agriculture monitoring — an independent GIS/remote-sensing project.</p>
+        <p style="color:var(--text-dim); font-size:13.5px; margin-top:8px; max-width:44ch;">Σύστημα παρακολούθησης καλλιεργειών με δορυφορικά δεδομένα — ανεξάρτητο έργο GIS &amp; τηλεπισκόπησης στην Ηλεία.</p>
+        <div class="foot-links">
+          <a href="#method">Μεθοδολογία</a>
+          <a href="#method">Πηγές δεδομένων</a>
+          <a href="#contact">Επικοινωνία</a>
+        </div>
       </div>
       <div class="foot-contact">
         <strong>Αναστάσιος Μαρίνος</strong>
@@ -719,7 +855,7 @@ select.chip-select{ font-family:var(--body); font-size:12.5px; font-weight:600; 
         <span>6987975061</span>
       </div>
     </div>
-    <p class="foot-note">Όλα τα δεδομένα σε αυτή τη σελίδα προέρχονται από πραγματικό, ενεργό pipeline (Sentinel-2/Sentinel-1/Open-Meteo) που τρέχει αυτόματα καθημερινά. Η ανάλυση ανά αγροτεμάχιο ενημερώνεται σε κάθε νέα δορυφορική εικόνα (~5ήμερος κύκλος επανεπίσκεψης).</p>
+    <p class="foot-copyright">© 2026 AgroScope · Αναστάσιος Μαρίνος. Demo / portfolio έργο.</p>
   </div>
 </footer>
 
@@ -738,6 +874,28 @@ function naSpan(label){ label = label || 'μη διαθέσιμο'; return '<spa
 function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function fmt1(x){ return (x===null||x===undefined||isNaN(x)) ? null : Math.round(x*10)/10; }
 function fmt2(x){ return (x===null||x===undefined||isNaN(x)) ? null : Math.round(x*100)/100; }
+
+/* tiny inline SVG sparkline — only drawn when there are real points to compare (no fabricated history) */
+function sparkline(points, upIsGood){
+  if(!points || points.length < 2) return '';
+  var w=54, h=18, pad=2;
+  var min=Math.min.apply(null,points), max=Math.max.apply(null,points);
+  var range = (max-min) || 1;
+  var stepX = (w-pad*2)/(points.length-1);
+  var coords = points.map(function(v,i){
+    var x = pad + i*stepX;
+    var y = pad + (1-((v-min)/range))*(h-pad*2);
+    return x.toFixed(1)+','+y.toFixed(1);
+  });
+  var rising = points[points.length-1] >= points[0];
+  var good = upIsGood===false ? !rising : rising;
+  var stroke = good ? 'var(--ok)' : 'var(--alert)';
+  var last = coords[coords.length-1].split(',');
+  return '<svg width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'" aria-hidden="true">'+
+    '<polyline points="'+coords.join(' ')+'" fill="none" stroke="'+stroke+'" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>'+
+    '<circle cx="'+last[0]+'" cy="'+last[1]+'" r="1.8" fill="'+stroke+'"/>'+
+  '</svg>';
+}
 
 function sanitizeIrrigation(t){
   if(!t) return naSpan('δεν υπάρχει σύσταση άρδευσης');
@@ -850,19 +1008,47 @@ document.getElementById('kpiRow').innerHTML = [
   '<div class="dkpi"><div class="top"><div class="n accent-olive">'+avgSuit+'<span style="font-size:15px;color:var(--text-dim)">/5</span></div></div><div class="l">Μέση καταλληλότητα θέσης</div><div class="ctx">εύρος '+fmt2(suits[0])+'–'+fmt2(suits[suits.length-1])+' στα 29 αγροτεμάχια</div></div>'
 ].join('');
 
-/* Action center */
+/* Action center — with concrete, dynamically-generated per-signal reasons */
+function pcs(n){ return n+' αγροτεμάχι'+(n===1?'ο':'α'); }
+var checkNeededCount = PARCELS.filter(function(p){return p.checkNeeded==='Ναι';}).length;
+var unexplainedAnomalyCount = PARCELS.filter(function(p){ var f=notesFlags(p); return p.anomalyType && !f.expectedAnomaly; }).length;
+var vertCount = PARCELS.filter(vertRisk).length;
+var lowVegCount = PARCELS.filter(function(p){ return notesFlags(p).lowVeg; }).length;
+
 var acHtml = '';
 var buckets = [
-  {key:'critical', title:'Κρίσιμα — χρειάζονται άμεση προσοχή', d:'Ενεργή σήμανση ελέγχου ή ανεξήγητη ανωμαλία βλάστησης.'},
-  {key:'attention', title:'Χρειάζονται προσοχή', d:'Κίνδυνος Verticillium ενεργός ή ασυνήθιστα χαμηλή υγρασία εδάφους έναντι ιστορικού.'},
-  {key:'monitor', title:'Για παρακολούθηση', d:'Χαμηλή βλάστηση NDVI<0.2 χωρίς άλλο ενεργό σήμα — πιθανό νεόφυτο, χρειάζεται οπτική επιβεβαίωση.'},
+  {key:'critical', title:'Κρίσιμα — χρειάζονται άμεση προσοχή', reasons:[
+    checkNeededCount ? pcs(checkNeededCount)+' — σημειώθηκαν για οπτικό έλεγχο' : null,
+    unexplainedAnomalyCount ? pcs(unexplainedAnomalyCount)+' — ασυνήθιστη πτώση βλάστησης, δεν εξηγείται ως αναμενόμενη' : null
+  ]},
+  {key:'attention', title:'Χρειάζονται προσοχή', reasons:[
+    dryCount ? pcs(dryCount)+' — χαμηλή υγρασία εδάφους έναντι ιστορικού' : null,
+    vertCount ? pcs(vertCount)+' — ενεργοποιήθηκε μοντέλο κινδύνου Verticillium' : null
+  ]},
+  {key:'monitor', title:'Για παρακολούθηση', reasons:[
+    lowVegCount ? pcs(lowVegCount)+' — χαμηλή βλάστηση (NDVI<0.2), πιθανό νεόφυτο' : null
+  ]},
 ];
 buckets.forEach(function(b){
   var n = sevCounts[b.key];
-  acHtml += '<div class="action-item"><span class="dot">'+SEV_META[b.key].icon+'</span><div class="body"><div class="t">'+b.title+'</div><div class="d">'+b.d+(n? ' Αφορά '+n+' αγροτεμάχι'+(n===1?'ο':'α')+'.':' Κανένα αγροτεμάχιο αυτή τη στιγμή.')+'</div></div><div class="n">'+n+'</div></div>';
+  var reasons = b.reasons.filter(Boolean);
+  var reasonsHtml = reasons.length ? '<div class="ac-reasons">'+reasons.map(function(r){ return '<div class="reason">· '+r+'</div>'; }).join('')+'</div>' : '<div class="d">Κανένα αγροτεμάχιο αυτή τη στιγμή.</div>';
+  acHtml += '<div class="action-item"><span class="dot">'+SEV_META[b.key].icon+'</span><div class="body"><div class="t">'+b.title+'</div>'+reasonsHtml+'</div><div class="n">'+n+'</div></div>';
 });
 acHtml += '<div class="action-item"><span class="dot">🟢</span><div class="body"><div class="t">Φυσιολογικά</div><div class="d">Κανένα από τα παραπάνω σήματα δεν είναι ενεργό.</div></div><div class="n">'+sevCounts.normal+'</div></div>';
 document.getElementById('actionList').innerHTML = acHtml;
+var attentionTotal = sevCounts.critical+sevCounts.attention+sevCounts.monitor;
+if(attentionTotal>0){
+  var ctaBtn = document.createElement('button');
+  ctaBtn.className = 'ac-cta';
+  ctaBtn.textContent = 'Δες όλα τα '+attentionTotal+' αγροτεμάχια →';
+  ctaBtn.addEventListener('click', function(){
+    filterState.mode = 'alerts'; filterState.crop = '';
+    showPanel('fields');
+    document.getElementById('app').scrollIntoView({block:'start', behavior:'smooth'});
+  });
+  document.getElementById('actionCenter').appendChild(ctaBtn);
+}
 
 /* Rail: fields needing attention (critical+attention+monitor), sorted by severity */
 var sevOrder = {critical:0, attention:1, monitor:2, normal:3};
@@ -905,7 +1091,7 @@ function fieldCard(p){
   var alerts = fieldAlerts(p);
   var h = healthScore(p);
   return '<div class="pcard" style="--sev-c:'+SEV_META[sev].color+';" data-kaek="'+p.kaek+'">'+
-    '<div class="toprow"><span class="kaek">'+p.kaek+'</span><span class="live-pill"><span class="d"></span>LIVE</span></div>'+
+    '<div class="toprow"><span class="kaek">'+p.kaek+'</span><span class="live-pill"><span class="d"></span>ΖΩΝΤΑΝΟ</span></div>'+
     '<div class="crop">'+esc(p.crop)+'</div>'+
     suitBar(p)+
     '<div class="row"><span>Υγεία (σύνθετη)</span><span class="healthdot">'+(h===null?naSpan():h+'/100')+'</span></div>'+
@@ -914,19 +1100,40 @@ function fieldCard(p){
     '<div class="flagrow"><span class="flag sev-'+sev+'">'+SEV_META[sev].icon+' '+SEV_META[sev].label+'</span>'+(alerts.length? '<span class="flag" style="background:var(--surface-2);color:var(--text-dim);">'+alerts.length+' ειδοπ.</span>':'')+'</div>'+
   '</div>';
 }
-var byKaek = {}; PARCELS.forEach(function(p){byKaek[p.kaek]=p;});
-document.getElementById('fieldsGrid').innerHTML = PARCELS.map(fieldCard).join('');
+function fieldRow(p){
+  var sev = severityOf(p);
+  var alerts = fieldAlerts(p);
+  var h = healthScore(p);
+  var riskTxt = alerts.length ? esc(alerts[0].t)+(alerts.length>1? ' +'+(alerts.length-1):'') : '—';
+  return '<tr class="field-row" data-kaek="'+p.kaek+'">'+
+    '<td class="fr-kaek">'+p.kaek+'</td>'+
+    '<td class="fr-crop">'+esc(p.crop)+'</td>'+
+    '<td>'+(h===null?naSpan():h+'/100')+'</td>'+
+    '<td>'+(p.soilMoisture===null||p.soilMoisture===undefined?naSpan():fmt1(p.soilMoisture)+'%')+'</td>'+
+    '<td class="riskflag-cell">'+riskTxt+'</td>'+
+    '<td><span class="status-pill sev-'+sev+'">'+SEV_META[sev].icon+' '+SEV_META[sev].label+'</span></td>'+
+  '</tr>';
+}
+function fieldsTable(list){
+  if(!list.length) return '<p style="font-size:13px;color:var(--text-dim);">Κανένα αγροτεμάχιο δεν ταιριάζει σε αυτό το φίλτρο.</p>';
+  return '<div class="tablewrap"><table class="dtable"><thead><tr><th>KAEK</th><th>Καλλιέργεια</th><th>Υγεία</th><th>Υγρασία</th><th>Ειδοποίηση</th><th>Κατάσταση</th></tr></thead><tbody>'+list.map(fieldRow).join('')+'</tbody></table></div>';
+}
 
-/* Fields panel filters */
+var byKaek = {}; PARCELS.forEach(function(p){byKaek[p.kaek]=p;});
+
+/* Fields panel filters, search, view toggle */
 var crops = Array.from(new Set(PARCELS.map(function(p){return p.crop;}))).sort();
-var filterState = {mode:'all', crop:''};
+var filterState = {mode:'all', crop:'', q:'', view:'table'};
+try{ var savedView = localStorage.getItem('agroscope-fields-view'); if(savedView==='grid'||savedView==='table') filterState.view = savedView; }catch(e){}
+
+function weatherActive(p){ return !!((p.heatStress) || (p.fruitSurfaceHeat) || (p.frostRisk && !/Καμία προειδοποίηση/.test(p.frostRisk))); }
+
 function renderFilters(){
-  var chips = ['all','alerts'];
   var html = '<button class="chip" data-mode="all" aria-pressed="'+(filterState.mode==='all')+'">Όλα ('+N+')</button>';
-  html += '<button class="chip" data-mode="alerts" aria-pressed="'+(filterState.mode==='alerts')+'">Ειδοποιήσεις ('+(sevCounts.critical+sevCounts.attention+sevCounts.monitor)+')</button>';
-  html += '<button class="chip" data-mode="health-asc" aria-pressed="'+(filterState.mode==='health-asc')+'">Χαμηλότερη υγεία πρώτα</button>';
-  html += '<button class="chip" data-mode="water-desc" aria-pressed="'+(filterState.mode==='water-desc')+'">Μεγαλύτερη ανάγκη νερού</button>';
-  html += '<button class="chip" data-mode="suit-desc" aria-pressed="'+(filterState.mode==='suit-desc')+'">Υψηλότερη καταλληλότητα</button>';
+  html += '<button class="chip" data-mode="alerts" aria-pressed="'+(filterState.mode==='alerts')+'">Προσοχή ('+(sevCounts.critical+sevCounts.attention+sevCounts.monitor)+')</button>';
+  html += '<button class="chip" data-mode="health-asc" aria-pressed="'+(filterState.mode==='health-asc')+'">Υγεία (χαμηλότερη πρώτα)</button>';
+  html += '<button class="chip" data-mode="water-desc" aria-pressed="'+(filterState.mode==='water-desc')+'">Νερό (μεγαλύτερη ανάγκη)</button>';
+  html += '<button class="chip" data-mode="weather" aria-pressed="'+(filterState.mode==='weather')+'">Καιρός ('+PARCELS.filter(weatherActive).length+')</button>';
   html += '<select class="chip-select" id="cropSelect"><option value="">Όλες οι καλλιέργειες</option>'+crops.map(function(c){return '<option value="'+esc(c)+'"'+(filterState.crop===c?' selected':'')+'>'+esc(c)+'</option>';}).join('')+'</select>';
   document.getElementById('fieldFilters').innerHTML = html;
   document.querySelectorAll('#fieldFilters .chip').forEach(function(btn){
@@ -937,14 +1144,37 @@ function renderFilters(){
 function applyFieldsFilter(){
   var list = PARCELS.slice();
   if(filterState.crop) list = list.filter(function(p){return p.crop===filterState.crop;});
+  if(filterState.q){
+    var q = filterState.q.toLowerCase();
+    list = list.filter(function(p){ return p.kaek.toLowerCase().indexOf(q)>-1 || (p.crop||'').toLowerCase().indexOf(q)>-1; });
+  }
   if(filterState.mode==='alerts') list = list.filter(function(p){return severityOf(p)!=='normal';});
+  if(filterState.mode==='weather') list = list.filter(weatherActive);
   if(filterState.mode==='health-asc') list.sort(function(a,b){ return (healthScore(a)??999)-(healthScore(b)??999); });
   if(filterState.mode==='water-desc') list.sort(function(a,b){ return (b.waterNeed??-1)-(a.waterNeed??-1); });
-  if(filterState.mode==='suit-desc') list.sort(function(a,b){ return b.suit-a.suit; });
-  document.getElementById('fieldsGrid').innerHTML = list.length ? list.map(fieldCard).join('') : '<p style="font-size:13px;color:var(--text-dim);">Κανένα αγροτεμάχιο δεν ταιριάζει σε αυτό το φίλτρο.</p>';
+  if(filterState.view==='table'){
+    document.getElementById('fieldsTableWrap').innerHTML = fieldsTable(list);
+    document.getElementById('fieldsTableWrap').hidden = false;
+    document.getElementById('fieldsGrid').hidden = true;
+  } else {
+    document.getElementById('fieldsGrid').innerHTML = list.length ? list.map(fieldCard).join('') : '<p style="font-size:13px;color:var(--text-dim);">Κανένα αγροτεμάχιο δεν ταιριάζει σε αυτό το φίλτρο.</p>';
+    document.getElementById('fieldsGrid').hidden = false;
+    document.getElementById('fieldsTableWrap').hidden = true;
+  }
   bindCardClicks();
 }
+document.getElementById('fieldSearch').addEventListener('input', function(e){ filterState.q = e.target.value; applyFieldsFilter(); });
+document.querySelectorAll('#viewToggle button').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    filterState.view = btn.dataset.view;
+    document.querySelectorAll('#viewToggle button').forEach(function(b){ b.setAttribute('aria-pressed', b===btn); });
+    try{ localStorage.setItem('agroscope-fields-view', filterState.view); }catch(e){}
+    applyFieldsFilter();
+  });
+});
+document.querySelectorAll('#viewToggle button').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.view===filterState.view); });
 renderFilters();
+applyFieldsFilter();
 
 /* ---------- Modal / detail drawer ---------- */
 var backdrop = document.getElementById('modalBackdrop');
@@ -957,29 +1187,53 @@ function openDrawer(kaek){
   var noteItems = (p.notes||'').split(' | ').filter(Boolean);
   var vertParsed = parseVert(p.verticillium);
 
+  var f = notesFlags(p);
+
+  /* "Τι άλλαξε" — built only from real, available deltas/signals */
+  var changeParts = [];
+  if(deltas.ndvi) changeParts.push('Το NDVI '+(deltas.ndvi.delta[0]==='↓'?'μειώθηκε':'αυξήθηκε')+' κατά '+deltas.ndvi.delta.slice(1)+' από την προηγούμενη μέτρηση ('+deltas.ndvi.from+' → '+deltas.ndvi.to+').');
+  if(deltas.cvi) changeParts.push('Το CVI '+(deltas.cvi.delta[0]==='↓'?'μειώθηκε':'αυξήθηκε')+' κατά '+deltas.cvi.delta.slice(1)+' ('+deltas.cvi.from+' → '+deltas.cvi.to+').');
+  if(f.lowMoistZ) changeParts.push('Η υγρασία εδάφους είναι κάτω από το ιστορικό εύρος αυτής της θέσης.');
+  if(vertRisk(p)) changeParts.push('Το μοντέλο Verticillium δείχνει ενεργό κίνδυνο βάσει θερμοκρασίας εδάφους.');
+  if(p.anomalyType && !f.expectedAnomaly) changeParts.push('Εντοπίστηκε ανωμαλία βλάστησης: '+esc(p.anomalyType)+'.');
+  var whatChanged = changeParts.length ? changeParts.join(' ') : 'Καμία σημαντική μεταβολή σε σχέση με την προηγούμενη μέτρηση — τα διαθέσιμα σήματα παραμένουν σταθερά.';
+
+  /* "Προτεινόμενη ενέργεια" — derived from the same alerts used in Action Center */
+  var actionGuidance = alerts.length
+    ? alerts.map(function(a){return a.d;}).join(' ')
+    : 'Δεν εντοπίζεται ενεργό σήμα σε αυτό το αγροτεμάχιο — δεν χρειάζεται ενέργεια αυτή τη στιγμή.';
+
+  function stateItem(label, val, deltaObj, points){
+    var deltaHtml = deltaObj ? '<span class="delta" style="color:'+(deltaObj.delta[0]==='↓'?'var(--alert)':'var(--ok)')+'">'+deltaObj.delta+'</span>' : '';
+    var spark = points ? sparkline(points) : '';
+    return '<div class="state-item"><div class="lbl">'+label+'</div><div class="val">'+val+deltaHtml+spark+'</div></div>';
+  }
+
   var html = '';
   html += '<div class="modal-head"><div><div class="kaek">KAEK '+p.kaek+'</div><h3 style="margin-top:4px;">'+esc(p.crop)+'</h3></div><button class="modal-close" id="modalCloseBtn">✕</button></div>';
 
+  html += '<div class="msec" style="margin-top:16px;padding-top:0;border-top:none;"><h4>Τρέχουσα κατάσταση</h4><div class="state-grid">'+
+    stateItem('NDVI', p.ndvi===null||p.ndvi===undefined?naSpan():fmt2(p.ndvi), deltas.ndvi, deltas.ndvi?[deltas.ndvi.from,deltas.ndvi.to]:null)+
+    stateItem('CVI (σύνθετος)', p.cvi===null||p.cvi===undefined?naSpan():fmt2(p.cvi), deltas.cvi, deltas.cvi?[deltas.cvi.from,deltas.cvi.to]:null)+
+    stateItem('Υγρασία εδάφους', p.soilMoisture===null||p.soilMoisture===undefined?naSpan():fmt1(p.soilMoisture)+'%', null, null)+
+    stateItem('Ανάγκη νερού', p.waterNeed===null||p.waterNeed===undefined?naSpan():fmt2(p.waterNeed)+' mm/ημ.', null, null)+
+  '</div></div>';
+
+  html += '<div class="msec"><h4>Τι άλλαξε</h4><p class="whatchanged">'+whatChanged+'</p></div>';
+
+  html += '<div class="msec"><h4>Προτεινόμενη ενέργεια</h4><div class="action-banner sev-'+sev+'"><span class="icon">'+SEV_META[sev].icon+'</span><div><div class="t">'+SEV_META[sev].label+'</div><div class="d">'+esc(actionGuidance)+'</div></div></div></div>';
+
   html += '<div class="msec"><h4>Επισκόπηση</h4><dl>'+
-    '<dt>Κατάσταση</dt><dd>'+SEV_META[sev].icon+' '+SEV_META[sev].label+'</dd>'+
     '<dt>Καταλληλότητα θέσης</dt><dd>'+fmt2(p.suit)+'/5 · '+lbl.t+'<span class="hint">Βάσει εδάφους · κλίσης · προσανατολισμού · υγείας καλλιέργειας</span></dd>'+
     '<dt>Ζώνη απόδοσης</dt><dd>'+esc(p.zone)+'</dd>'+
     '<dt>Δείκτης υγείας</dt><dd>'+(h===null?naSpan():h+'/100')+'<span class="hint">Παράγωγος δείκτης (NDVI+CVI), όχι ανεξάρτητη μέτρηση</span></dd>'+
-  '</dl></div>';
-
-  html += '<div class="msec"><h4>Υγεία καλλιέργειας <span class="provtag observed">Observed</span></h4><dl>'+
-    '<dt>NDVI</dt><dd>'+(p.ndvi===null||p.ndvi===undefined?naSpan():fmt2(p.ndvi))+(deltas.ndvi? '<span class="hint">'+deltas.ndvi.from+' → '+deltas.ndvi.to+' ('+deltas.ndvi.delta+')</span>':'<span class="hint">χωρίς διαθέσιμη μεταβολή</span>')+'</dd>'+
-    '<dt>CVI (σύνθετος)</dt><dd>'+(p.cvi===null||p.cvi===undefined?naSpan():fmt2(p.cvi))+(deltas.cvi? '<span class="hint">'+deltas.cvi.from+' → '+deltas.cvi.to+' ('+deltas.cvi.delta+')</span>':'<span class="hint">χωρίς διαθέσιμη μεταβολή</span>')+'</dd>'+
   '</dl></div>';
 
   html += '<div class="msec"><h4>Δορυφορικά <span class="provtag modelled">Modelled — z-score</span></h4><dl>'+
     '<dt>Ανωμαλία</dt><dd>'+(p.anomalyType ? esc(p.anomalyType) : 'Δεν εντοπίστηκε')+'</dd>'+
   '</dl></div>';
 
-  html += '<div class="msec"><h4>Έδαφος &amp; Νερό <span class="provtag observed">Observed / FAO-56</span></h4><dl>'+
-    '<dt>Υγρασία εδάφους</dt><dd>'+(p.soilMoisture===null||p.soilMoisture===undefined?naSpan():fmt1(p.soilMoisture)+'%')+'</dd>'+
-    '<dt>Ανάγκη νερού</dt><dd>'+(p.waterNeed===null||p.waterNeed===undefined?naSpan():fmt2(p.waterNeed)+' mm/ημέρα')+'</dd>'+
-  '</dl><p class="freeform" style="margin-top:10px;">'+sanitizeIrrigation(p.irrigation)+'</p></div>';
+  html += '<div class="msec"><h4>Άρδευση <span class="provtag lit">FAO-56</span></h4><p class="freeform">'+sanitizeIrrigation(p.irrigation)+'</p></div>';
 
   html += '<div class="msec"><h4>Καιρός</h4><p class="freeform">'+(p.frostRisk?esc(p.frostRisk):naSpan())+'</p>'+
     '<p class="freeform" style="margin-top:6px;">Θερμικό στρες: '+(p.heatStress?esc(p.heatStress):'Καμία ενεργή προειδοποίηση αυτή τη στιγμή.')+'</p>'+
@@ -993,9 +1247,9 @@ function openDrawer(kaek){
   } else {
     vertBlock = '<p class="freeform">'+naSpan('Δεν αφορά αυτή την καλλιέργεια')+'</p>';
   }
-  html += '<div class="msec"><h4>Εχθροί &amp; Ασθένειες <span class="provtag modelled">Modelled — GDD</span></h4>'+
-    '<div style="font-size:11.5px;color:var(--text-faint);margin-bottom:6px;">Εκτίμηση μοντέλου βαθμοημερών για όλο το κτήμα — όχι παρατήρηση πεδίου.</div>'+pestBlock+
-    '<div style="font-size:11.5px;color:var(--text-faint);margin:10px 0 6px;">Verticillium (μόνο ελιά)</div>'+vertBlock+
+  html += '<div class="msec"><h4>Κίνδυνος εχθρών &amp; ασθενειών <span class="provtag modelled">Modelled</span></h4>'+
+    '<div style="font-size:11.5px;color:var(--text-faint);margin-bottom:6px;">Εκτίμηση βάσει συσσώρευσης θερμοκρασίας (GDD) για όλο το κτήμα — όχι απευθείας παρατήρηση πεδίου.</div>'+pestBlock+
+    '<div style="font-size:11.5px;color:var(--text-faint);margin:10px 0 6px;">Κίνδυνος Verticillium (μόνο ελιά)</div>'+vertBlock+
   '</div>';
 
   html += '<div class="msec"><h4>Ειδοποιήσεις πεδίου ('+alerts.length+')</h4>'+(alerts.length ? alerts.map(function(a){return '<div class="riskitem"><span class="ri-ic">'+a.icon+'</span><div><b>'+esc(a.t)+'</b><p>'+esc(a.d)+'</p></div></div>';}).join('') : '<p class="freeform">Καμία ενεργή ειδοποίηση για αυτό το αγροτεμάχιο.</p>')+'</div>';
@@ -1011,7 +1265,7 @@ backdrop.addEventListener('click', function(e){ if(e.target===backdrop) closeDra
 document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeDrawer(); });
 
 function bindCardClicks(){
-  document.querySelectorAll('.pcard[data-kaek], .rail-item[data-kaek]').forEach(function(el){
+  document.querySelectorAll('.pcard[data-kaek], .rail-item[data-kaek], .field-row[data-kaek]').forEach(function(el){
     el.addEventListener('click', function(){ openDrawer(el.dataset.kaek); });
   });
 }
@@ -1035,6 +1289,11 @@ document.querySelectorAll('.sb-link').forEach(function(btn){
   });
 });
 document.getElementById('heroCtaMap').addEventListener('click', function(){ showPanel('overview'); });
+var heroCtaFieldsEl = document.getElementById('heroCtaFields');
+if(heroCtaFieldsEl) heroCtaFieldsEl.addEventListener('click', function(){
+  filterState.mode = 'alerts'; filterState.crop = '';
+  showPanel('fields');
+});
 showPanel('overview');
 
 /* ---------- Satellite panel content ---------- */
@@ -1064,7 +1323,7 @@ document.getElementById('anomalyList').innerHTML = anomalies.length ? anomalies.
 var noFrost = PARCELS.every(function(p){return p.frostRisk && /Καμία προειδοποίηση/.test(p.frostRisk);});
 document.getElementById('frostSummary').textContent = noFrost
   ? 'Καμία προειδοποίηση παγετού στο επόμενο 16ήμερο σε κανένα από τα 29 αγροτεμάχια.'
-  : 'Ορισμένα αγροτεμάχια έχουν ενεργή προειδοποίηση παγετού — δες τη λεπτομέρεια ανά αγροτεμάχιο στο Fields.';
+  : 'Ορισμένα αγροτεμάχια έχουν ενεργή προειδοποίηση παγετού — δες τη λεπτομέρεια ανά αγροτεμάχιο στα Αγροτεμάχια.';
 
 var irrigSorted = PARCELS.filter(function(p){return !/Πολύ χαμηλή/.test(p.irrigation||'');});
 document.getElementById('irrigTable').innerHTML = '<thead><tr><th>KAEK</th><th>Καλλιέργεια</th><th>Σύσταση άρδευσης</th></tr></thead><tbody>'+
@@ -1100,13 +1359,38 @@ document.getElementById('vertPanel').innerHTML = vertParcels.length ? vertParcel
 /* ---------- header meta ---------- */
 var today = new Date();
 document.getElementById('todayDate').textContent = today.toLocaleDateString('el-GR', {day:'2-digit', month:'2-digit', year:'numeric'});
-document.getElementById('lastUpdated').textContent = LAST_SYNC_DATE
-  ? LAST_SYNC_DATE.toLocaleDateString('el-GR', {day:'2-digit', month:'2-digit', year:'numeric'}) + ' (live)'
-  : 'στιγμιότυπο σελίδας';
-document.getElementById('dashSub').textContent = N + ' αγροτεμάχια υπό παρακολούθηση · ' + (sevCounts.critical+sevCounts.attention) + ' χρειάζονται προσοχή σήμερα';
+var freshDateTxt = LAST_SYNC_DATE
+  ? LAST_SYNC_DATE.toLocaleDateString('el-GR', {day:'2-digit', month:'2-digit', year:'numeric'})
+  : null;
+document.getElementById('lastUpdated').textContent = freshDateTxt ? (freshDateTxt + ' (live)') : 'στιγμιότυπο σελίδας';
+document.getElementById('dashSub').textContent = N + ' αγροτεμάχια υπό παρακολούθηση · Ενημερώθηκε σήμερα';
 document.getElementById('liveBarText').textContent = LIVE_DATA_OK
   ? 'live δεδομένα από GitHub · δορυφορικός κύκλος ~5 ημέρες'
   : 'στατικό στιγμιότυπο (live fetch απέτυχε) · δορυφορικός κύκλος ~5 ημέρες';
+
+/* ---------- hero status strip (real computed counts) ---------- */
+var heroCountsHtml = [
+  {k:'critical', ic:'🔴', l:'Κρίσιμα'}, {k:'attention', ic:'🟠', l:'Προσοχή'},
+  {k:'monitor', ic:'🟡', l:'Παρακολούθηση'}, {k:'normal', ic:'🟢', l:'Φυσιολογικά'}
+].map(function(s){
+  return '<div class="hs-count"><div class="icon">'+s.ic+'</div><div class="n">'+sevCounts[s.k]+'</div><div class="l">'+s.l+'</div></div>';
+}).join('');
+var heroCountsEl = document.getElementById('heroCounts');
+if(heroCountsEl) heroCountsEl.innerHTML = heroCountsHtml;
+var heroMsgEl = document.getElementById('heroAttentionMsg');
+if(heroMsgEl){
+  heroMsgEl.innerHTML = attentionTotal>0
+    ? '<b>'+attentionTotal+' αγροτεμάχι'+(attentionTotal===1?'ο':'α')+'</b> χρειάζ'+(attentionTotal===1?'εται':'ονται')+' προσοχή σήμερα'
+    : 'Κανένα αγροτεμάχιο δεν χρειάζεται προσοχή σήμερα';
+}
+var freshEl = document.getElementById('heroFreshnessText');
+if(freshEl) freshEl.textContent = freshDateTxt ? ('ενημερώθηκε '+freshDateTxt) : 'στιγμιότυπο σελίδας';
+var settingsFreshEl = document.getElementById('settingsFreshness');
+if(settingsFreshEl){
+  settingsFreshEl.innerHTML = (LIVE_DATA_OK ? '🟢 Δεδομένα ενημερωμένα' : '🟡 Στατικό στιγμιότυπο')+
+    (freshDateTxt ? ' · τελευταία ενημέρωση pipeline: <b>'+freshDateTxt+'</b>' : '')+
+    ' · Επόμενη δορυφορική ενημέρωση: ~5 μέρες';
+}
 
 }
 
