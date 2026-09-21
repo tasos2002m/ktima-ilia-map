@@ -677,6 +677,11 @@ svg.leaflet-image-layer.leaflet-interactive path {
   .popup-table td { padding:2px 6px; vertical-align:top; font-size:13px; }
   .popup-table td:first-child { font-weight:bold; white-space:nowrap; }
   .leaflet-popup-content { max-width:280px; }
+  .locate-ctrl select { font-family: Arial, sans-serif; font-size:12.5px; padding:7px 9px; border-radius:4px; border:none; background:#fff; min-width:180px; max-width:56vw; cursor:pointer; }
+  .leaflet-control-fullscreen a { font-size:16px; line-height:28px; text-align:center; display:block; text-decoration:none; color:#333; }
+  @media (max-width:480px){
+    .locate-ctrl select { min-width:120px; font-size:12px; }
+  }
 </style>
 </head>
 <body>
@@ -732,6 +737,82 @@ svg.leaflet-image-layer.leaflet-interactive path {
       if (p.KAEK) layersByKaek[p.KAEK] = lyr;
     }
   }).addTo(map);
+
+  // PROSTHIKI (map usability pass, 2026-09-21): fullscreen toggle + locate-parcel
+  // dropdown, requested by Tasos ("δύσκολο στο χειρισμό" review of the embedded map).
+  // Fullscreen only added when the browser actually supports the Fullscreen API AND
+  // this document is allowed to use it (the parent <iframe> needs allowfullscreen) —
+  // if either is missing the button is simply not shown, no broken control.
+  var fsSupported = !!(document.fullscreenEnabled || document.webkitFullscreenEnabled);
+  if (fsSupported) {
+    var fsCtl = L.control({ position: 'topright' });
+    fsCtl.onAdd = function () {
+      var div = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-fullscreen');
+      var a = L.DomUtil.create('a', '', div);
+      a.href = '#';
+      a.title = 'Πλήρης οθόνη';
+      a.setAttribute('role', 'button');
+      a.setAttribute('aria-label', 'Πλήρης οθόνη');
+      a.innerHTML = '⛶';
+      L.DomEvent.disableClickPropagation(div);
+      L.DomEvent.on(a, 'click', L.DomEvent.stop).on(a, 'click', function () {
+        var el = document.documentElement;
+        if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+          var req = el.requestFullscreen || el.webkitRequestFullscreen;
+          if (req) req.call(el);
+        } else {
+          var exit = document.exitFullscreen || document.webkitExitFullscreen;
+          if (exit) exit.call(document);
+        }
+      });
+      return div;
+    };
+    fsCtl.addTo(map);
+    var onFsChange = function () {
+      var isFs = !!(document.fullscreenElement || document.webkitFullscreenElement);
+      var a = fsCtl.getContainer().querySelector('a');
+      a.innerHTML = isFs ? '✕' : '⛶';
+      a.title = isFs ? 'Έξοδος πλήρους οθόνης' : 'Πλήρης οθόνη';
+      setTimeout(function () { map.invalidateSize(); }, 80);
+    };
+    document.addEventListener('fullscreenchange', onFsChange);
+    document.addEventListener('webkitfullscreenchange', onFsChange);
+  }
+
+  // Εντοπισμός αγροτεμαχίου: dropdown με όλα τα ΚΑΕΚ — επιλογή κάνει fitBounds +
+  // ανοίγει το popup του αγροτεμαχίου, χωρίς να χρειάζεται ο χρήστης να ψάχνει
+  // οπτικά πάνω στον χάρτη.
+  var locateCtl = L.control({ position: 'topright' });
+  locateCtl.onAdd = function () {
+    var div = L.DomUtil.create('div', 'leaflet-bar leaflet-control locate-ctrl');
+    var select = L.DomUtil.create('select', '', div);
+    select.setAttribute('aria-label', 'Εντοπισμός αγροτεμαχίου');
+    var opt0 = document.createElement('option');
+    opt0.value = '';
+    opt0.textContent = 'Εντοπισμός ΚΑΕΚ…';
+    select.appendChild(opt0);
+    Object.keys(layersByKaek).sort().forEach(function (k) {
+      var lyr = layersByKaek[k];
+      var crop = (lyr.feature && lyr.feature.properties && lyr.feature.properties['Καλλιέργεια']) || '';
+      var opt = document.createElement('option');
+      opt.value = k;
+      opt.textContent = k + (crop ? ' — ' + crop : '');
+      select.appendChild(opt);
+    });
+    L.DomEvent.disableClickPropagation(div);
+    L.DomEvent.on(select, 'change', function () {
+      var k = select.value;
+      if (!k) return;
+      var lyr = layersByKaek[k];
+      if (!lyr) return;
+      map.fitBounds(lyr.getBounds(), { maxZoom: 17, padding: [40, 40] });
+      lyr.openPopup();
+      select.blur();
+      select.value = '';
+    });
+    return div;
+  };
+  locateCtl.addTo(map);
 
   // PROSTHIKI — minimal postMessage API so the parent dashboard can keep the
   // map in sync with its own filters (search / chips / crop select), without
