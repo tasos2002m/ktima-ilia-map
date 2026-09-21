@@ -277,6 +277,19 @@ select.chip-select{ font-family:var(--body); font-size:12.5px; font-weight:600; 
 .msec dd{ margin:0; font-family:var(--mono); text-align:right; }
 .msec .hint{ display:block; font-family:var(--body); font-size:11px; color:var(--text-faint); margin-top:2px; font-weight:500; text-align:right;}
 .msec p.freeform{ font-size:13px; color:var(--text-dim); line-height:1.6; }
+.mtabs{ display:flex; gap:4px; margin-top:16px; border-bottom:1px solid var(--border); }
+.mtab{ font-family:var(--body); font-size:13px; font-weight:700; padding:9px 6px; margin-bottom:-1px; border:none; border-bottom:2px solid transparent; background:none; color:var(--text-dim); cursor:pointer; }
+.mtab:hover{ color:var(--text); }
+.mtab.active{ color:var(--olive-ink); border-bottom-color:var(--olive); }
+.mtab-panel[hidden]{ display:none; }
+.hist-chart-row{ display:flex; justify-content:space-between; align-items:center; gap:10px; padding:9px 0; border-top:1px solid var(--border); }
+.hist-chart-row:first-child{ border-top:none; }
+.hist-chart-row .lbl{ font-size:12.5px; font-weight:600; color:var(--text-dim); }
+.hist-chart-row .vals{ display:flex; align-items:center; gap:8px; font-family:var(--mono); font-size:12.5px; white-space:nowrap; }
+.hist-empty{ font-size:13px; color:var(--text-dim); line-height:1.6; padding:4px 0; }
+.hist-change-row{ display:flex; gap:10px; padding:7px 0; border-top:1px solid var(--border); font-size:12.5px; align-items:baseline; }
+.hist-change-row:first-child{ border-top:none; }
+.hist-change-row .d{ font-family:var(--mono); font-size:11px; color:var(--text-faint); flex:none; width:52px; }
 .provtag{ font-family:var(--mono); font-size:9.5px; font-weight:700; padding:1px 6px; border-radius:5px; margin-left:6px; vertical-align:middle; }
 .provtag.observed{ background:var(--info-bg); color:var(--info); }
 .provtag.modelled{ background:var(--citrus-bg); color:var(--citrus-ink); }
@@ -1336,6 +1349,65 @@ applyFieldsFilter();
 /* ---------- Modal / detail drawer ---------- */
 var backdrop = document.getElementById('modalBackdrop');
 var modalBody = document.getElementById('modalBody');
+function fmtHistDate(d){
+  if(!d || String(d).length<8) return d||'';
+  d = String(d);
+  return d.slice(6,8)+'/'+d.slice(4,6);
+}
+
+/* "Ιστορικό" tab — built ONLY from p.history[] (real persisted points, see
+   build_parcels_json() / push_to_github.py). No history yet (0-1 points) =
+   honest empty state, no fake/interpolated data ever. */
+function buildHistoryHtml(p){
+  var hist = (p.history||[]).filter(function(h){ return h && h.date; });
+  if(hist.length < 2){
+    var n = hist.length;
+    return '<p class="hist-empty">Το ιστορικό αυτού του αγροτεμαχίου μόλις ξεκίνησε να καταγράφεται'+
+      (n===1 ? ' (1 πραγματική παρατήρηση μέχρι στιγμής)' : '')+
+      ' — θα εμφανιστεί εδώ γράφημα εξέλιξης μόλις υπάρξουν αρκετές διαδοχικές δορυφορικές παρατηρήσεις.</p>';
+  }
+  var metrics = [
+    { key:'ndvi', label:'NDVI', upIsGood:true, fmt:fmt2 },
+    { key:'cvi', label:'CVI (σύνθετος)', upIsGood:true, fmt:fmt2 },
+    { key:'soilMoisture', label:'Υγρασία εδάφους', upIsGood:null, fmt:function(v){ return fmt1(v)+'%'; } }
+  ];
+  var rowsHtml = metrics.map(function(m){
+    var pts = hist.map(function(h){ return h[m.key]; }).filter(function(v){ return typeof v==='number' && !isNaN(v); });
+    if(pts.length < 2) return '';
+    var first = pts[0], last = pts[pts.length-1];
+    var d = last-first;
+    var dTxt = (d>=0?'+':'')+fmt2(d);
+    var dColor = m.upIsGood===null ? 'var(--text-dim)' : ((d>=0)===m.upIsGood ? 'var(--ok)' : 'var(--alert)');
+    return '<div class="hist-chart-row"><div class="lbl">'+m.label+'</div><div class="vals">'+
+      sparkline(pts, m.upIsGood===null?true:m.upIsGood)+'<span>'+m.fmt(last)+'</span>'+
+      '<span style="color:'+dColor+';">'+dTxt+'</span></div></div>';
+  }).join('');
+
+  /* "Σημαντικές μεταβολές" — consecutive-point deltas only, same thresholds
+     philosophy as the rest of the dashboard (no new invented statistic). */
+  var changeRows = [];
+  for(var i=1;i<hist.length;i++){
+    var prev=hist[i-1], cur=hist[i], parts=[];
+    if(typeof prev.ndvi==='number' && typeof cur.ndvi==='number'){
+      var dn = cur.ndvi-prev.ndvi;
+      if(Math.abs(dn)>=0.03) parts.push('NDVI '+fmt2(prev.ndvi)+' → '+fmt2(cur.ndvi)+' '+(dn>0?'↑':'↓'));
+    }
+    if(typeof prev.soilMoisture==='number' && typeof cur.soilMoisture==='number'){
+      var dm = cur.soilMoisture-prev.soilMoisture;
+      if(Math.abs(dm)>=8) parts.push('Υγρασία εδάφους '+(dm>0?'↑':'↓')+' αισθητά');
+    }
+    if(cur.anomaly && !prev.anomaly) parts.push('Εντοπίστηκε ανωμαλία βλάστησης');
+    if(prev.anomaly && !cur.anomaly) parts.push('Η ανωμαλία δεν εντοπίζεται πλέον');
+    if(parts.length) changeRows.push({ date:cur.date, text:parts.join(' · ') });
+  }
+  var changesHtml = changeRows.length
+    ? changeRows.slice().reverse().map(function(c){ return '<div class="hist-change-row"><span class="d">'+fmtHistDate(c.date)+'</span><span>'+esc(c.text)+'</span></div>'; }).join('')
+    : '<p class="hist-empty">Καμία σημαντική μεταβολή ανάμεσα στις '+hist.length+' καταγεγραμμένες παρατηρήσεις.</p>';
+
+  return '<div class="msec" style="margin-top:16px;padding-top:0;border-top:none;"><h4>Εξέλιξη βλάστησης <span style="font-weight:500;color:var(--text-faint);text-transform:none;letter-spacing:normal;font-family:var(--body);">(τελευταίες '+hist.length+' παρατηρήσεις)</span></h4>'+rowsHtml+'</div>'+
+    '<div class="msec"><h4>Σημαντικές μεταβολές</h4>'+changesHtml+'</div>';
+}
+
 function openDrawer(kaek){
   var p = byKaek[kaek]; if(!p) return;
   var sev = severityOf(p), lbl = suitLabel(p.suit), h = healthScore(p);
@@ -1389,6 +1461,7 @@ function openDrawer(kaek){
 
   var html = '';
   html += '<div class="modal-head"><div><div class="kaek">KAEK '+p.kaek+'</div><h3 style="margin-top:4px;">'+esc(p.crop)+'</h3></div><button class="modal-close" id="modalCloseBtn">✕</button></div>';
+  html += '<!--TABS_START-->';
 
   html += '<div class="msec" style="margin-top:16px;padding-top:0;border-top:none;"><h4>Τρέχουσα κατάσταση</h4><div class="state-grid">'+
     stateItem('NDVI', p.ndvi===null||p.ndvi===undefined?naSpan():fmt2(p.ndvi), deltas.ndvi, deltas.ndvi?[deltas.ndvi.from,deltas.ndvi.to]:null)+
@@ -1435,10 +1508,31 @@ function openDrawer(kaek){
   html += '<div class="msec"><h4>Ειδοποιήσεις πεδίου ('+alerts.length+')</h4>'+(alerts.length ? alerts.map(function(a){return '<div class="riskitem"><span class="ri-ic">'+a.icon+'</span><div><b>'+esc(a.t)+'</b><p>'+esc(a.d)+'</p></div></div>';}).join('') : '<p class="freeform">Καμία ενεργή ειδοποίηση για αυτό το αγροτεμάχιο.</p>')+'</div>';
 
   html += '<div class="msec"><h4>Σημειώσεις</h4><ul class="notes-list">'+(noteItems.length ? noteItems.map(function(t){return '<li>'+esc(t)+'</li>';}).join('') : '<li>'+naSpan()+'</li>')+'</ul></div>';
+  html += '<!--TABS_END-->';
+
+  var ovMatch = html.match(/<!--TABS_START-->([\s\S]*)<!--TABS_END-->/);
+  var ovHtml = ovMatch ? ovMatch[1] : '';
+  var histHtml = buildHistoryHtml(p);
+  var tabsHtml = '<div class="mtabs"><button class="mtab active" type="button" data-mtab="overview">Επισκόπηση</button><button class="mtab" type="button" data-mtab="history">Ιστορικό</button></div>'+
+    '<div class="mtab-panel" id="mtabOverview">'+ovHtml+'</div>'+
+    '<div class="mtab-panel" id="mtabHistory" hidden>'+histHtml+'</div>';
+  html = html.replace(/<!--TABS_START-->[\s\S]*<!--TABS_END-->/, tabsHtml);
 
   modalBody.innerHTML = html;
   backdrop.hidden = false;
   document.getElementById('modalCloseBtn').addEventListener('click', closeDrawer);
+  var mtabBtns = modalBody.querySelectorAll('.mtab');
+  mtabBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      mtabBtns.forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      var target = btn.getAttribute('data-mtab');
+      var ovEl = document.getElementById('mtabOverview');
+      var hEl = document.getElementById('mtabHistory');
+      if(ovEl) ovEl.hidden = (target !== 'overview');
+      if(hEl) hEl.hidden = (target !== 'history');
+    });
+  });
 }
 function closeDrawer(){ backdrop.hidden = true; }
 backdrop.addEventListener('click', function(e){ if(e.target===backdrop) closeDrawer(); });
