@@ -695,13 +695,15 @@ svg.leaflet-image-layer.leaflet-interactive path {
 
   var map = L.map('map', { zoomSnap: 0.1, zoomDelta: 0.5 });
 
-  // DIORTHOSI (2026-09-17): Ζωντανα Esri tiles δεν φορτωνουν μεσα σε
-  // δημοσιευμενο Artifact (CSP μπλοκαρει εξωτερικες εικονες). Αντ' αυτου,
-  // ενσωματωνεται εδω ΠΡΑΓΜΑΤΙΚΟ δορυφορικο στιγμιοτυπο (Esri World
-  // Imagery export, ιδιο bounding box με τα αγροτεμαχια) ως inline
-  // base64 εικονα (οχι εξωτερικο URL) - περναει το CSP γιατι δεν κανει
-  // κανένα εξωτερικο fetch, ειναι ηδη μεσα στο αρχειο.
-  // (δορυφορικό background: βλ. σύνδεσμο προς τον πλήρη ζωντανό χάρτη πάνω από τον χάρτη)
+  // ΕΝΗΜΕΡΩΣΗ (2026-09-21): live δορυφορικό tile layer (Esri World Imagery,
+  // δωρεάν, χωρίς API key). Μέσα σε δημοσιευμένο Claude Artifact αυτό μπορεί
+  // να μπλοκαριστεί από το CSP (εξωτερικές εικόνες) και ο χάρτης θα δείξει
+  // γκρι φόντο ως fallback — αλλά στο GitHub Pages (το πραγματικό production
+  // hosting) δεν υπάρχει τέτοιος περιορισμός, οπότε φορτώνει κανονικά.
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    maxZoom: 19,
+    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, Maxar, Earthstar Geographics'
+  }).addTo(map);
 
   function rowHtml(label, value) {
     return '<tr><td>' + label + '</td><td>' + value + '</td></tr>';
