@@ -161,6 +161,21 @@ footer.pubfoot{ padding-block:44px 60px; }
 
 .appmain{ padding:22px 22px 60px; min-width:0; }
 @media (max-width:640px){ .appmain{ padding:16px 14px 50px; } }
+
+/* Fixed bottom nav — phone width only; sidebar's horizontal-scroll strip still
+   handles the 600–900px range, this replaces it below 600px where space is tight. */
+.bottomnav{ display:none; }
+@media (max-width:600px){
+  .sidebar{ display:none; }
+  .bottomnav{
+    display:flex; position:fixed; left:0; right:0; bottom:0; z-index:120;
+    background:var(--surface); border-top:1px solid var(--border);
+    padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px)); gap:2px;
+  }
+  .bottomnav .sb-link{ flex:1; flex-direction:column; align-items:center; justify-content:center; gap:2px; padding:6px 2px; font-size:10px; border-radius:8px; width:auto; text-align:center; }
+  .bottomnav .sb-link .ic{ font-size:17px; width:auto; }
+  .appmain{ padding-bottom:calc(74px + env(safe-area-inset-bottom,0px)); }
+}
 .app-header{ display:flex; justify-content:space-between; align-items:flex-start; gap:16px; flex-wrap:wrap; margin-bottom:22px; padding-bottom:18px; border-bottom:1px solid var(--border); }
 .app-header h2{ font-size:22px; }
 .app-header .sub{ font-size:13px; color:var(--text-dim); margin-top:4px; }
@@ -415,6 +430,23 @@ select.chip-select{ font-family:var(--body); font-size:12.5px; font-weight:600; 
 
 /* Ερμηνεία block */
 .interp{ font-size:13px; color:var(--text-dim); line-height:1.6; }
+
+/* ============ SKELETON LOADING ============ */
+.skel{ position:relative; overflow:hidden; background:var(--surface-2); border-radius:6px; color:transparent!important; }
+.skel::after{ content:''; position:absolute; inset:0; transform:translateX(-100%);
+  background:linear-gradient(90deg, transparent, color-mix(in srgb, var(--surface) 75%, transparent) 50%, transparent);
+  animation:skel-shimmer 1.5s ease-in-out infinite; }
+@keyframes skel-shimmer{ 100%{ transform:translateX(100%); } }
+@media (prefers-reduced-motion: reduce){ .skel::after{ animation:none; display:none; } .skel{ opacity:.7; } }
+.skel-text{ display:inline-block; vertical-align:middle; }
+.skel-hs .skel{ height:16px; width:34%; border-radius:4px; }
+.skel-hs .skel + .skel{ margin-top:6px; height:22px; width:50%; }
+.skel-dkpi .skel{ height:13px; width:55%; border-radius:4px; }
+.skel-dkpi .skel.sk-n{ height:28px; width:45%; border-radius:6px; margin:8px 0 8px; }
+.skel-action .skel{ height:12px; border-radius:4px; }
+.skel-action .sk-dot{ width:12px; height:12px; border-radius:50%; flex:none; }
+.skel-action .sk-t{ width:48%; margin-bottom:6px; }
+.skel-action .sk-d{ width:80%; }
 </style>
 
 <nav class="topnav">
@@ -452,11 +484,16 @@ select.chip-select{ font-family:var(--body); font-size:12.5px; font-weight:600; 
     <div class="hero-status">
       <div class="hs-top">
         <div class="hs-label"><span class="pulse2"></span>ΣΗΜΕΡΑ — 29 αγροτεμάχια παρακολουθούνται</div>
-        <span class="freshness" id="heroFreshness"><span class="d"></span><span id="heroFreshnessText">φόρτωση…</span></span>
+        <span class="freshness" id="heroFreshness"><span class="d"></span><span id="heroFreshnessText" class="skel skel-text" style="width:96px;height:11px;">φόρτωση…</span></span>
       </div>
-      <div class="hs-counts" id="heroCounts"></div>
+      <div class="hs-counts" id="heroCounts">
+        <div class="hs-count skel-hs"><div class="skel"></div><div class="skel"></div></div>
+        <div class="hs-count skel-hs"><div class="skel"></div><div class="skel"></div></div>
+        <div class="hs-count skel-hs"><div class="skel"></div><div class="skel"></div></div>
+        <div class="hs-count skel-hs"><div class="skel"></div><div class="skel"></div></div>
+      </div>
       <div class="hs-foot">
-        <div class="hs-msg" id="heroAttentionMsg">Υπολογισμός σημερινής κατάστασης…</div>
+        <div class="hs-msg skel skel-text" id="heroAttentionMsg" style="width:240px;height:14px;">Υπολογισμός σημερινής κατάστασης…</div>
         <a class="btn btn-primary" href="#app" id="heroCtaFields">Προβολή αγροτεμαχίων →</a>
       </div>
     </div>
@@ -499,11 +536,20 @@ select.chip-select{ font-family:var(--body); font-size:12.5px; font-weight:600; 
 
       <!-- OVERVIEW -->
       <section class="panel" id="panel-overview">
-        <div class="dkpi-row" id="kpiRow"></div>
+        <div class="dkpi-row" id="kpiRow">
+          <div class="dkpi skel-dkpi"><div class="skel"></div><div class="skel sk-n"></div><div class="skel" style="width:75%;"></div></div>
+          <div class="dkpi skel-dkpi"><div class="skel"></div><div class="skel sk-n"></div><div class="skel" style="width:75%;"></div></div>
+          <div class="dkpi skel-dkpi"><div class="skel"></div><div class="skel sk-n"></div><div class="skel" style="width:75%;"></div></div>
+          <div class="dkpi skel-dkpi"><div class="skel"></div><div class="skel sk-n"></div><div class="skel" style="width:75%;"></div></div>
+        </div>
         <div class="action-center" id="actionCenter">
           <h3>Σημερινές προτεραιότητες</h3>
           <div class="sub">Αυτόματη κατηγοριοποίηση των 29 αγροτεμαχίων βάσει πραγματικών σημάτων — δες τους κανόνες στη Μεθοδολογία.</div>
-          <div id="actionList"></div>
+          <div id="actionList" class="skel-action">
+            <div class="action-item"><div class="skel sk-dot"></div><div class="body"><div class="skel sk-t"></div><div class="skel sk-d"></div></div></div>
+            <div class="action-item"><div class="skel sk-dot"></div><div class="body"><div class="skel sk-t"></div><div class="skel sk-d"></div></div></div>
+            <div class="action-item"><div class="skel sk-dot"></div><div class="body"><div class="skel sk-t"></div><div class="skel sk-d"></div></div></div>
+          </div>
         </div>
         <div class="ov-grid">
           <div class="map-embed">
@@ -557,7 +603,8 @@ select.chip-select{ font-family:var(--body); font-size:12.5px; font-weight:600; 
           </div>
         </div>
         <div class="card" style="margin-bottom:20px;">
-          <h3>Υγρασία εδάφους (Sentinel-1) <span class="provtag observed">Observed</span></h3>
+          <h3>Υγρασία εδάφους (Sentinel-1) <span class="provtag estimated">Estimated</span></h3>
+          <p style="font-size:12px;color:var(--text-dim); margin-bottom:10px;">Εκτίμηση από μετασχηματισμό ραντάρ backscatter — όχι απευθείας μέτρηση όγκου υγρασίας όπως αισθητήρας εδάφους.</p>
           <div class="tablewrap"><table class="dtable" id="moistTable"></table></div>
         </div>
         <div class="card">
@@ -659,6 +706,16 @@ select.chip-select{ font-family:var(--body); font-size:12.5px; font-weight:600; 
             <p style="font-size:13px; color:var(--text-dim); margin-top:6px;">Η εφαρμογή ακολουθεί αυτόματα το θέμα (φωτεινό/σκοτεινό) της συσκευής σου.</p>
           </div>
           <div>
+            <h3>Ειδοποιήσεις</h3>
+            <p style="font-size:13px; color:var(--text-dim); margin-top:6px;">Το AgroScope είναι προς το παρόν μία στατική σελίδα, χωρίς backend αποστολής email/push. Οι παρακάτω επιλογές αποθηκεύονται μόνο τοπικά σε αυτή τη συσκευή, ως προσωπική υπενθύμιση προτίμησης — <b>δεν ενεργοποιούν ακόμα πραγματική αποστολή ειδοποιήσεων</b>. Πλήρης λειτουργία προγραμματισμένη για επόμενη έκδοση.</p>
+            <div style="display:flex; flex-direction:column; gap:9px; margin-top:12px;" id="notifToggles">
+              <label style="display:flex; align-items:center; gap:9px; font-size:13px; color:var(--text); cursor:pointer;"><input type="checkbox" data-notif="daily" style="width:16px;height:16px;accent-color:var(--olive);"> Καθημερινή αναφορά</label>
+              <label style="display:flex; align-items:center; gap:9px; font-size:13px; color:var(--text); cursor:pointer;"><input type="checkbox" data-notif="frost" style="width:16px;height:16px;accent-color:var(--olive);"> Ειδοποιήσεις παγετού</label>
+              <label style="display:flex; align-items:center; gap:9px; font-size:13px; color:var(--text); cursor:pointer;"><input type="checkbox" data-notif="irrigation" style="width:16px;height:16px;accent-color:var(--olive);"> Ειδοποιήσεις άρδευσης</label>
+              <label style="display:flex; align-items:center; gap:9px; font-size:13px; color:var(--text); cursor:pointer;"><input type="checkbox" data-notif="pest" style="width:16px;height:16px;accent-color:var(--olive);"> Ειδοποιήσεις εχθρών-ασθενειών</label>
+            </div>
+          </div>
+          <div>
             <h3>Φρεσκάδα δεδομένων</h3>
             <p style="font-size:13px; color:var(--text-dim); margin-top:6px;" id="settingsFreshness">Έλεγχος…</p>
             <p style="font-size:12.5px; color:var(--text-faint); margin-top:6px;">Πηγή: αυτόματη ανάλυση Sentinel-1, Sentinel-2 και καιρικών δεδομένων. 29 αγροτεμάχια, ενημέρωση σε κάθε νέα δορυφορική λήψη (~5ήμερος κύκλος) και καθημερινά για καιρό/άρδευση/παγετό.</p>
@@ -672,6 +729,12 @@ select.chip-select{ font-family:var(--body); font-size:12.5px; font-weight:600; 
 
     </main>
   </div>
+  <nav class="bottomnav" id="bottomNav" aria-label="Κύρια πλοήγηση εφαρμογής">
+    <button class="sb-link" data-panel="overview"><span class="ic">◆</span>Επισκόπηση</button>
+    <button class="sb-link" data-panel="fields"><span class="ic">▦</span>Αγροτεμάχια</button>
+    <button class="sb-link" data-panel="weather"><span class="ic">☁</span>Καιρός</button>
+    <button class="sb-link" data-panel="risk"><span class="ic">⚠</span>Κίνδυνοι</button>
+  </nav>
 </div>
 
 <section class="pub" id="features">
@@ -736,7 +799,7 @@ select.chip-select{ font-family:var(--body); font-size:12.5px; font-weight:600; 
         <div class="feat-body">
           <ul>
             <li><b>Suitability model</b> — στάθμιση Προσανατολισμού/Κλίσης/Εδάφους/CVI, καμία σταθερά χωρίς βιβλιογραφική πηγή.</li>
-            <li><b>Υγρασία εδάφους</b> — ραντάρ Sentinel-1, με ιστορική σημείωση ανωμαλίας ανά αγροτεμάχιο.</li>
+            <li><b>Υγρασία εδάφους</b> — εκτίμηση από ραντάρ Sentinel-1, με ιστορική σημείωση ανωμαλίας ανά αγροτεμάχιο.</li>
             <li><b>Ριζόστρωμα ανά ηλικία</b> — νεόφυτο/ενδιάμεσο/ώριμο, δυναμικό βάθος κατά FAO-56.</li>
           </ul>
         </div>
@@ -773,15 +836,15 @@ select.chip-select{ font-family:var(--body); font-size:12.5px; font-weight:600; 
     <div class="method-cat">
       <div class="method-cat-head"><h3>☁ Δορυφόρος — Sentinel-2</h3><span class="n">Βλάστηση &amp; υγεία καλλιέργειας</span></div>
       <div class="method-grid">
-        <div class="mcard"><div class="w">CVI</div><div class="t">Σύνθετος δείκτης υγείας</div><div class="d">PCA πάνω σε NDVI/NDRE/NDMI/PSRI από κάθε πέρασμα Sentinel-2 (~5 μέρες κύκλος επανεπίσκεψης) — πιο σταθερός δείκτης από το NDVI μόνο του.</div></div>
-        <div class="mcard"><div class="w">NDVI</div><div class="t">Δείκτης βλάστησης</div><div class="d">Άμεση μέτρηση πυκνότητας/υγείας φυλλώματος από πολυφασματική εικόνα — η βάση πάνω στην οποία χτίζεται το CVI.</div></div>
+        <div class="mcard"><div class="w">CVI</div><div class="t">Σύνθετος δείκτης υγείας</div><div class="d">Σύνθετος δείκτης (PCA πάνω σε NDVI/NDRE/NDMI/PSRI) από κάθε πέρασμα Sentinel-2 (~5 μέρες κύκλος επανεπίσκεψης) — χρησιμοποιείται για σχετική σύγκριση μεταξύ των αγροτεμαχίων, όχι ως ανεξάρτητα επικυρωμένος δείκτης υγείας.</div></div>
+        <div class="mcard"><div class="w">NDVI</div><div class="t">Δείκτης βλάστησης</div><div class="d">Φασματικός δείκτης βλάστησης από πολυφασματική εικόνα, ένδειξη φυλλικής ανάπτυξης και φωτοσυνθετικής δραστηριότητας — η βάση πάνω στην οποία χτίζεται το CVI.</div></div>
       </div>
     </div>
 
     <div class="method-cat">
       <div class="method-cat-head"><h3>◈ Έδαφος &amp; Νερό — Sentinel-1 + FAO-56</h3><span class="n">Υγρασία, ριζόστρωμα, άρδευση</span></div>
       <div class="method-grid">
-        <div class="mcard"><div class="w">S-1</div><div class="t">Υγρασία εδάφους (ραντάρ)</div><div class="d">Μέτρηση ραντάρ Sentinel-1, ανεξάρτητη από συννεφιά — συγκρίνεται με το ιστορικό της ίδιας θέσης.</div></div>
+        <div class="mcard"><div class="w">S-1</div><div class="t">Υγρασία εδάφους (ραντάρ)</div><div class="d">Εκτίμηση από backscatter ραντάρ Sentinel-1 (όχι απευθείας μέτρηση όγκου υγρασίας), ανεξάρτητη από συννεφιά — συγκρίνεται με το ιστορικό της ίδιας θέσης.</div></div>
         <div class="mcard"><div class="w">FAO-56</div><div class="t">Ριζόστρωμα &amp; ισοζύγιο νερού</div><div class="d">Επίσημος οδηγός FAO (Allen et al. 1998) για βάθος ρίζας ανά καλλιέργεια/ηλικία και υπολογισμό ETc / πρόταση άρδευσης.</div></div>
         <div class="mcard"><div class="w">AHP</div><div class="t">Καταλληλότητα θέσης</div><div class="d">Weighted-sum στάθμιση κριτηρίων εδάφους/κλίσης/προσανατολισμού/υγείας (γενική γεωργική AHP βιβλιογραφία) — όχι στατιστικό ταίριασμα στα δεδομένα του κτήματος.</div></div>
       </div>
@@ -806,9 +869,9 @@ select.chip-select{ font-family:var(--body); font-size:12.5px; font-weight:600; 
       <h3 style="font-size:15px; margin-bottom:6px;">Λεξιλόγιο βεβαιότητας — πώς να διαβάσεις κάθε αριθμό</h3>
       <p style="font-size:13px; color:var(--text-dim); max-width:70ch;">Κάθε τιμή στην εφαρμογή φέρει ρητά έναν από τους παρακάτω χαρακτηρισμούς. Ποτέ δεν παρουσιάζουμε μια εκτίμηση μοντέλου ως άμεση παρατήρηση πεδίου. Δεν εμφανίζουμε ποσοστό βεβαιότητας που δεν προκύπτει από τα δεδομένα.</p>
       <div class="prov-grid">
-        <div class="prov"><div class="k observed">Observed / Παρατηρημένο</div><div class="v">Απευθείας μέτρηση από δορυφόρο ή αισθητήρα — π.χ. NDVI, CVI, υγρασία εδάφους (Sentinel-1/2).</div></div>
+        <div class="prov"><div class="k observed">Observed / Παρατηρημένο</div><div class="v">Απευθείας μέτρηση από δορυφόρο ή αισθητήρα — π.χ. NDVI, CVI (Sentinel-2).</div></div>
         <div class="prov"><div class="k modelled">Modelled / Μοντελοποιημένο</div><div class="v">Έξοδος υπολογιστικού μοντέλου πάνω σε παρατηρημένα δεδομένα — π.χ. στάδιο εχθρού (GDD), κίνδυνος Verticillium.</div></div>
-        <div class="prov"><div class="k estimated">Estimated / Εκτίμηση</div><div class="v">Τιμή με γνωστή αβεβαιότητα πηγής ή μεθόδου — π.χ. ταυτότητα καλλιέργειας όταν βασίζεται σε δήλωση ΟΣΔΕ.</div></div>
+        <div class="prov"><div class="k estimated">Estimated / Εκτίμηση</div><div class="v">Τιμή με γνωστή αβεβαιότητα πηγής ή μεθόδου — π.χ. υγρασία εδάφους από backscatter ραντάρ Sentinel-1, ταυτότητα καλλιέργειας όταν βασίζεται σε δήλωση ΟΣΔΕ.</div></div>
         <div class="prov"><div class="k lit">Literature-based / Βιβλιογραφικό</div><div class="v">Σταθερά ή κατώφλι από δημοσιευμένη πηγή, όχι fitted στα δεδομένα του κτήματος — π.χ. βάθος ριζοστρώματος FAO-56.</div></div>
       </div>
     </div>
@@ -820,7 +883,7 @@ select.chip-select{ font-family:var(--body); font-size:12.5px; font-weight:600; 
           <thead><tr><th>Σήμα</th><th>Τύπος</th><th>Πηγή</th></tr></thead>
           <tbody>
             <tr><td>NDVI / CVI</td><td><span class="provtag observed" style="margin-left:0;">Observed</span></td><td>Sentinel-2</td></tr>
-            <tr><td>Υγρασία εδάφους</td><td><span class="provtag observed" style="margin-left:0;">Observed</span></td><td>Sentinel-1</td></tr>
+            <tr><td>Υγρασία εδάφους</td><td><span class="provtag estimated" style="margin-left:0;">Estimated</span></td><td>Sentinel-1</td></tr>
             <tr><td>Παγετός</td><td><span class="provtag estimated" style="margin-left:0;">Estimated</span></td><td>Πρόγνωση καιρού (16ήμερο)</td></tr>
             <tr><td>Στάδιο κύκλου εχθρού</td><td><span class="provtag modelled" style="margin-left:0;">Modelled</span></td><td>Μοντέλο βαθμοημερών (GDD)</td></tr>
             <tr><td>Βάθος ριζοστρώματος</td><td><span class="provtag lit" style="margin-left:0;">Literature-based</span></td><td>FAO-56 (Allen et al. 1998)</td></tr>
@@ -837,7 +900,7 @@ select.chip-select{ font-family:var(--body); font-size:12.5px; font-weight:600; 
       <div>
         <p class="eyebrow">Επεκτασιμότητα</p>
         <h2>Αρχιτεκτονική έτοιμη για πανελλαδική κλιμάκωση, όχι μόνο για ένα κτήμα</h2>
-        <p class="desc">Το σύστημα καιρού/εχθρών καλύπτει ήδη 12 επίσημες κατηγορίες καλλιεργειών (ΕΛΣΤΑΤ/ΥΠΑΑΤ) — ενεργοποιείται αυτόματα ανάλογα με τι δηλώνει κάθε παραγωγός, χωρίς αλλαγή κώδικα. (Τα κηπευτικά θερμοκηπίου εξαιρούνται σκόπιμα — η δορυφορική παρακολούθηση δεν έχει νόημα μέσα από κάλυψη θερμοκηπίου.)</p>
+        <p class="desc">Το σύστημα καιρού/εχθρών καλύπτει ήδη 12 επίσημες κατηγορίες καλλιεργειών (ΕΛΣΤΑΤ/ΥΠΑΑΤ) — ενεργοποιείται αυτόματα ανάλογα με τι δηλώνει κάθε παραγωγός. Η αρχιτεκτονική έχει σχεδιαστεί ώστε νέες περιοχές και καλλιέργειες να μπορούν να ενσωματώνονται χωρίς αλλαγή του βασικού monitoring workflow. (Τα κηπευτικά θερμοκηπίου εξαιρούνται σκόπιμα — η δορυφορική παρακολούθηση δεν έχει νόημα μέσα από κάλυψη θερμοκηπίου.)</p>
       </div>
     </div>
     <div class="crop-grid">
@@ -1477,9 +1540,10 @@ if(heroMsgEl){
   heroMsgEl.innerHTML = attentionTotal>0
     ? '<b>'+attentionTotal+' αγροτεμάχι'+(attentionTotal===1?'ο':'α')+'</b> χρειάζ'+(attentionTotal===1?'εται':'ονται')+' προσοχή σήμερα'
     : 'Κανένα αγροτεμάχιο δεν χρειάζεται προσοχή σήμερα';
+  heroMsgEl.classList.remove('skel','skel-text'); heroMsgEl.style.width=''; heroMsgEl.style.height='';
 }
 var freshEl = document.getElementById('heroFreshnessText');
-if(freshEl) freshEl.textContent = freshDateTxt ? ('ενημερώθηκε '+freshDateTxt) : 'στιγμιότυπο σελίδας';
+if(freshEl){ freshEl.textContent = freshDateTxt ? ('ενημερώθηκε '+freshDateTxt) : 'στιγμιότυπο σελίδας'; freshEl.classList.remove('skel','skel-text'); freshEl.style.width=''; freshEl.style.height=''; }
 var settingsFreshEl = document.getElementById('settingsFreshness');
 if(settingsFreshEl){
   settingsFreshEl.innerHTML = (LIVE_DATA_OK ? '🟢 Δεδομένα ενημερωμένα' : '🟡 Στατικό στιγμιότυπο')+
@@ -1516,6 +1580,31 @@ withTimeout(fetch(PARCELS_URL, {cache:'no-store'}).then(function(r){ if(!r.ok) t
   })
   .then(function(data){ renderApp(data); })
   .catch(function(){ LIVE_DATA_OK = false; renderApp(STATIC_PARCELS); });
+})();
+</script>
+
+<script>
+(function(){
+"use strict";
+/* Notification preference toggles — per-viewer convenience only (localStorage),
+   NOT shared/durable state, NOT a real notification pipeline. */
+try{
+  var STORE_KEY = 'agroscope-notif-prefs-v1';
+  var boxes = document.querySelectorAll('#notifToggles input[data-notif]');
+  var saved = {};
+  try{ saved = JSON.parse(localStorage.getItem(STORE_KEY) || '{}') || {}; }catch(e){ saved = {}; }
+  boxes.forEach(function(b){
+    var key = b.getAttribute('data-notif');
+    b.checked = !!saved[key];
+    b.addEventListener('change', function(){
+      try{
+        var cur = JSON.parse(localStorage.getItem(STORE_KEY) || '{}') || {};
+        cur[key] = b.checked;
+        localStorage.setItem(STORE_KEY, JSON.stringify(cur));
+      }catch(e){ /* private mode / blocked storage — ignore, toggle still works visually */ }
+    });
+  });
+}catch(e){ /* localStorage unavailable — checkboxes simply stay unchecked */ }
 })();
 </script>
 
