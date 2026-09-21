@@ -308,16 +308,16 @@ select.chip-select{ font-family:var(--body); font-size:12.5px; font-weight:600; 
 }
 
 /* ============ HERO STATUS STRIP ============ */
-.hero-status{ margin-top:28px; background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:18px 20px; }
-.hero-status .hs-top{ display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:14px; }
+.hero-status{ margin-top:28px; background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:20px 22px 18px; box-shadow:0 1px 0 rgba(0,0,0,.02); }
+.hero-status .hs-top{ display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:16px; }
 .hero-status .hs-label{ font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--text-faint); font-weight:700; display:flex; align-items:center; gap:7px;}
 .hero-status .hs-label .pulse2{ width:6px;height:6px;border-radius:50%; background:var(--ok); }
 .hs-counts{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:10px; overflow:hidden; }
 @media (max-width:520px){ .hs-counts{ grid-template-columns:repeat(2,1fr);} }
-.hs-count{ background:var(--surface); padding:12px 14px; }
-.hs-count .icon{ font-size:14px; }
-.hs-count .n{ font-family:var(--mono); font-size:22px; font-weight:700; font-variant-numeric:tabular-nums; margin-top:2px; }
-.hs-count .l{ font-size:11px; color:var(--text-dim); margin-top:2px; }
+.hs-count{ background:var(--surface); padding:16px 14px; }
+.hs-count .icon{ font-size:17px; }
+.hs-count .n{ font-family:var(--mono); font-size:34px; font-weight:800; font-variant-numeric:tabular-nums; margin-top:4px; line-height:1; }
+.hs-count .l{ font-size:12px; color:var(--text-dim); margin-top:5px; font-weight:600; }
 .hero-status .hs-foot{ display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-top:14px; padding-top:14px; border-top:1px solid var(--border); }
 .hero-status .hs-msg{ font-size:13.5px; font-weight:600; }
 .hero-status .hs-msg b{ color:var(--citrus-ink); }
@@ -393,6 +393,28 @@ select.chip-select{ font-family:var(--body); font-size:12.5px; font-weight:600; 
 /* Data freshness badge */
 .freshness{ display:inline-flex; align-items:center; gap:7px; font-family:var(--mono); font-size:11.5px; color:var(--text-dim); background:var(--surface-2); border:1px solid var(--border); border-radius:999px; padding:5px 12px; }
 .freshness .d{ width:6px;height:6px;border-radius:50%; background:var(--ok); flex:none; }
+
+/* Health gauge (composite index) — simple number + bar + label, formula behind a disclosure */
+.health-gauge{ margin-top:2px; }
+.health-gauge .hg-row{ display:flex; align-items:baseline; gap:8px; }
+.health-gauge .hg-n{ font-family:var(--mono); font-size:20px; font-weight:800; }
+.health-gauge .hg-lbl{ font-size:12.5px; font-weight:700; color:var(--text-dim); }
+.health-gauge .hg-track{ height:6px; border-radius:3px; background:var(--surface-2); overflow:hidden; margin-top:6px; }
+.health-gauge .hg-fill{ height:100%; border-radius:3px; background:var(--olive); }
+.health-gauge .hg-cap{ font-size:11px; color:var(--text-faint); margin-top:5px; }
+.health-gauge details{ margin-top:6px; }
+.health-gauge summary{ font-size:11.5px; font-weight:600; color:var(--olive-ink); cursor:pointer; list-style:none; }
+.health-gauge summary::-webkit-details-marker{ display:none; }
+.health-gauge details p{ font-size:12px; color:var(--text-dim); line-height:1.6; margin-top:6px; }
+
+/* Fields panel — map synced with filters */
+.fields-map{ margin-bottom:16px; }
+.fields-map iframe{ width:100%; height:360px; border:1px solid var(--border); border-radius:12px; display:block; background:var(--surface-2); }
+.fields-map .cap{ font-size:11.5px; color:var(--text-faint); margin-top:6px; }
+.fields-count{ font-size:12.5px; color:var(--text-dim); font-weight:600; margin-left:auto; white-space:nowrap; }
+
+/* Ερμηνεία block */
+.interp{ font-size:13px; color:var(--text-dim); line-height:1.6; }
 </style>
 
 <nav class="topnav">
@@ -414,7 +436,7 @@ select.chip-select{ font-family:var(--body); font-size:12.5px; font-weight:600; 
       <div>
         <p class="hero-word">AGROSCOPE</p>
         <h1>Precision Agriculture<br>Intelligence</h1>
-        <p class="tag">Από δορυφόρο σε απόφαση, κάθε μέρα. Ένα σύστημα παρακολούθησης καλλιέργειας που συνδυάζει δορυφορικές εικόνες, μοντέλα εδάφους και βιβλιογραφικά τεκμηριωμένους κανόνες καιρού — τρέχει αυτόματα, καθημερινά, χωρίς ανθρώπινη παρέμβαση.</p>
+        <p class="tag">Από δορυφόρο σε απόφαση. Ένα σύστημα παρακολούθησης καλλιέργειας που συνδυάζει δορυφορικές εικόνες, μοντέλα εδάφους και βιβλιογραφικά τεκμηριωμένους κανόνες καιρού — τρέχει αυτόματα και χωρίς ανθρώπινη παρέμβαση: καιρός &amp; μοντέλα κινδύνου καθημερινά, δορυφορικά δεδομένα σε κάθε νέα λήψη.</p>
         <div class="hero-cta">
           <a class="btn btn-primary" href="#app" id="heroCtaMap">Δες το κτήμα →</a>
           <a class="btn btn-ghost" href="#features">Πώς λειτουργεί</a>
@@ -423,8 +445,8 @@ select.chip-select{ font-family:var(--body); font-size:12.5px; font-weight:600; 
       <div class="kpi-row">
         <div class="kpi"><div class="n">29</div><div class="l">αγροτεμάχια (KAEK)</div></div>
         <div class="kpi"><div class="n">12</div><div class="l">κατηγορίες καλλιεργειών</div></div>
-        <div class="kpi"><div class="n">28+</div><div class="l">μοντέλα κινδύνου</div></div>
-        <div class="kpi"><div class="n">Καθημερινά</div><div class="l">αυτόματη ενημέρωση</div></div>
+        <div class="kpi"><div class="n">28+</div><div class="l">κανόνες κινδύνου (καιρός × καλλιέργεια)</div></div>
+        <div class="kpi"><div class="n">Καθημερινά</div><div class="l">καιρός &amp; μοντέλα · δορυφόρος ανά λήψη</div></div>
       </div>
     </div>
     <div class="hero-status">
@@ -487,7 +509,7 @@ select.chip-select{ font-family:var(--body); font-size:12.5px; font-weight:600; 
           <div class="map-embed">
             <iframe src="embedded_map.html" title="Διαδραστικός χάρτης κτήματος" loading="lazy"></iframe>
             <a href="https://tasos2002m.github.io/ktima-ilia-map/Diadrastikos_Xartis_Ktima_Ilia.html" target="_blank" rel="noopener" class="live-map-cta">Πλήρης δορυφορικός χάρτης →</a>
-            <p class="map-caption">Ο χάρτης δείχνει πάντα όλα τα 29 πραγματικά όρια αγροτεμαχίων με χρωματισμό βάσει καταλληλότητας θέσης· ενημερώνεται ξεχωριστά από τα φίλτρα δεξιά.</p>
+            <p class="map-caption">Ο χάρτης δείχνει πάντα όλα τα 29 πραγματικά όρια αγροτεμαχίων με χρωματισμό βάσει καταλληλότητας θέσης. Για χάρτη συγχρονισμένο με τα φίλτρα, δες τα <a href="#app" id="mapToFieldsLink" style="color:var(--olive-ink); font-weight:600;">Αγροτεμάχια →</a></p>
           </div>
           <div class="rail">
             <h4>Αγροτεμάχια που χρειάζονται προσοχή</h4>
@@ -503,8 +525,13 @@ select.chip-select{ font-family:var(--body); font-size:12.5px; font-weight:600; 
 
       <!-- FIELDS -->
       <section class="panel" id="panel-fields" hidden>
+        <div class="fields-map">
+          <iframe id="fieldsMapFrame" src="embedded_map.html" title="Χάρτης αγροτεμαχίων — συγχρονισμένος με τα φίλτρα" loading="lazy"></iframe>
+          <p class="cap">Ο χάρτης ενημερώνεται μαζί με την αναζήτηση και τα φίλτρα παρακάτω — τα αγροτεμάχια εκτός φίλτρου εμφανίζονται αχνά.</p>
+        </div>
         <div class="fields-toolbar">
           <input class="field-search" id="fieldSearch" type="search" placeholder="Αναζήτηση KAEK ή καλλιέργειας…" aria-label="Αναζήτηση αγροτεμαχίων">
+          <span class="fields-count" id="fieldsCount"></span>
           <div class="view-toggle" id="viewToggle">
             <button data-view="table" aria-pressed="true">Λίστα</button>
             <button data-view="grid" aria-pressed="false">Κάρτες</button>
@@ -653,7 +680,7 @@ select.chip-select{ font-family:var(--body); font-size:12.5px; font-weight:600; 
       <div>
         <p class="eyebrow">Το σύστημα</p>
         <h2>Τέσσερις στρώσεις ανάλυσης, μία απόφαση</h2>
-        <p class="desc">Κάθε αγροτεμάχιο περνάει καθημερινά από 4 ανεξάρτητες αναλύσεις — καμία δεν βασίζεται σε επισκόπηση πεδίου.</p>
+        <p class="desc">Κάθε αγροτεμάχιο περνάει από 4 ανεξάρτητες αναλύσεις — καιρός &amp; μοντέλα κινδύνου: καθημερινά · δορυφόρος: σε κάθε νέα λήψη — καμία δεν βασίζεται σε επισκόπηση πεδίου.</p>
       </div>
     </div>
     <div class="feat-grid">
@@ -809,7 +836,7 @@ select.chip-select{ font-family:var(--body); font-size:12.5px; font-weight:600; 
     <div class="section-head">
       <div>
         <p class="eyebrow">Επεκτασιμότητα</p>
-        <h2>Χτισμένο για όλη την Ελλάδα, όχι μόνο για ένα κτήμα</h2>
+        <h2>Αρχιτεκτονική έτοιμη για πανελλαδική κλιμάκωση, όχι μόνο για ένα κτήμα</h2>
         <p class="desc">Το σύστημα καιρού/εχθρών καλύπτει ήδη 12 επίσημες κατηγορίες καλλιεργειών (ΕΛΣΤΑΤ/ΥΠΑΑΤ) — ενεργοποιείται αυτόματα ανάλογα με τι δηλώνει κάθε παραγωγός, χωρίς αλλαγή κώδικα. (Τα κηπευτικά θερμοκηπίου εξαιρούνται σκόπιμα — η δορυφορική παρακολούθηση δεν έχει νόημα μέσα από κάλυψη θερμοκηπίου.)</p>
       </div>
     </div>
@@ -920,6 +947,24 @@ function healthScore(p){
   var n=(p.ndvi-ndviMin)/(ndviMax-ndviMin||1);
   var c=(p.cvi-cviMin)/(cviMax-cviMin||1);
   return Math.round((n*0.6+c*0.4)*100);
+}
+function healthLabel(h){
+  if(h===null||h===undefined) return null;
+  if(h>=75) return 'Πολύ καλή';
+  if(h>=55) return 'Καλή';
+  if(h>=35) return 'Μέτρια';
+  return 'Χαμηλή';
+}
+/* Priority 5 — simple number + bar/label primarily, formula/disclaimer behind a disclosure */
+function healthGauge(h){
+  if(h===null||h===undefined) return naSpan();
+  var lbl = healthLabel(h);
+  return '<div class="health-gauge">'+
+    '<div class="hg-row"><b class="hg-n">'+h+'<span style="font-size:12px;color:var(--text-dim);font-weight:600;">/100</span></b><span class="hg-lbl">'+lbl+'</span></div>'+
+    '<div class="hg-track"><div class="hg-fill" style="width:'+h+'%;"></div></div>'+
+    '<div class="hg-cap">Σύνθετος δείκτης · σχετικός με αυτό το κτήμα</div>'+
+    '<details><summary>ⓘ Πώς υπολογίζεται</summary><p>Παράγωγος δείκτης — <b>όχι</b> ανεξάρτητη μέτρηση — υπολογισμένος από κανονικοποιημένο NDVI (60%) και CVI (40%) στο εύρος τιμών που παρατηρείται σήμερα στα 29 αγροτεμάχια. Χρησιμοποιείται μόνο για γρήγορη οπτική σύγκριση μέσα στο κτήμα, όχι ως απόλυτο μέγεθος συγκρίσιμο εκτός αυτού του dataset.</p></details>'+
+  '</div>';
 }
 
 /* ---------- severity rules (see Methodology panel for the same text) ---------- */
@@ -1043,8 +1088,10 @@ if(attentionTotal>0){
   ctaBtn.className = 'ac-cta';
   ctaBtn.textContent = 'Δες όλα τα '+attentionTotal+' αγροτεμάχια →';
   ctaBtn.addEventListener('click', function(){
-    filterState.mode = 'alerts'; filterState.crop = '';
+    filterState.mode = 'alerts'; filterState.crop = ''; filterState.q = '';
+    var fs = document.getElementById('fieldSearch'); if(fs) fs.value = '';
     showPanel('fields');
+    renderFilters(); applyFieldsFilter();
     document.getElementById('app').scrollIntoView({block:'start', behavior:'smooth'});
   });
   document.getElementById('actionCenter').appendChild(ctaBtn);
@@ -1094,7 +1141,7 @@ function fieldCard(p){
     '<div class="toprow"><span class="kaek">'+p.kaek+'</span><span class="live-pill"><span class="d"></span>ΖΩΝΤΑΝΟ</span></div>'+
     '<div class="crop">'+esc(p.crop)+'</div>'+
     suitBar(p)+
-    '<div class="row"><span>Υγεία (σύνθετη)</span><span class="healthdot">'+(h===null?naSpan():h+'/100')+'</span></div>'+
+    '<div class="row"><span>Υγεία (σύνθετη)</span><span class="healthdot">'+(h===null?naSpan():h+'/100 · '+healthLabel(h))+'</span></div>'+
     '<div class="row"><span>Υγρασία εδάφους</span><b>'+(p.soilMoisture===null||p.soilMoisture===undefined?naSpan():fmt1(p.soilMoisture)+'%')+'</b></div>'+
     '<div class="row"><span>Ανάγκη νερού</span><b>'+(p.waterNeed===null||p.waterNeed===undefined?naSpan():fmt2(p.waterNeed)+' mm/ημ.')+'</b></div>'+
     '<div class="flagrow"><span class="flag sev-'+sev+'">'+SEV_META[sev].icon+' '+SEV_META[sev].label+'</span>'+(alerts.length? '<span class="flag" style="background:var(--surface-2);color:var(--text-dim);">'+alerts.length+' ειδοπ.</span>':'')+'</div>'+
@@ -1108,7 +1155,7 @@ function fieldRow(p){
   return '<tr class="field-row" data-kaek="'+p.kaek+'">'+
     '<td class="fr-kaek">'+p.kaek+'</td>'+
     '<td class="fr-crop">'+esc(p.crop)+'</td>'+
-    '<td>'+(h===null?naSpan():h+'/100')+'</td>'+
+    '<td>'+(h===null?naSpan():h+'/100 · '+healthLabel(h))+'</td>'+
     '<td>'+(p.soilMoisture===null||p.soilMoisture===undefined?naSpan():fmt1(p.soilMoisture)+'%')+'</td>'+
     '<td class="riskflag-cell">'+riskTxt+'</td>'+
     '<td><span class="status-pill sev-'+sev+'">'+SEV_META[sev].icon+' '+SEV_META[sev].label+'</span></td>'+
@@ -1141,6 +1188,20 @@ function renderFilters(){
   });
   document.getElementById('cropSelect').addEventListener('change', function(e){ filterState.crop = e.target.value; applyFieldsFilter(); });
 }
+/* Fields map — kept in sync with the same filtered set that drives the list/KPIs (Priority 1) */
+var fieldsMapFrame = document.getElementById('fieldsMapFrame');
+var fieldsMapReady = false;
+var pendingMapKaeks = null;
+function postFilterToMap(kaeks){
+  if(!fieldsMapFrame) return;
+  if(!fieldsMapReady){ pendingMapKaeks = kaeks; return; }
+  try{ fieldsMapFrame.contentWindow.postMessage({type:'filterParcels', kaeks:kaeks}, '*'); }catch(e){}
+}
+if(fieldsMapFrame) fieldsMapFrame.addEventListener('load', function(){
+  fieldsMapReady = true;
+  postFilterToMap(pendingMapKaeks || []);
+});
+
 function applyFieldsFilter(){
   var list = PARCELS.slice();
   if(filterState.crop) list = list.filter(function(p){return p.crop===filterState.crop;});
@@ -1161,6 +1222,9 @@ function applyFieldsFilter(){
     document.getElementById('fieldsGrid').hidden = false;
     document.getElementById('fieldsTableWrap').hidden = true;
   }
+  var fieldsCountEl = document.getElementById('fieldsCount');
+  if(fieldsCountEl) fieldsCountEl.textContent = 'Εμφανίζονται '+list.length+' από '+N+' αγροτεμάχια';
+  postFilterToMap(list.map(function(p){return p.kaek;}));
   bindCardClicks();
 }
 document.getElementById('fieldSearch').addEventListener('input', function(e){ filterState.q = e.target.value; applyFieldsFilter(); });
@@ -1198,7 +1262,28 @@ function openDrawer(kaek){
   if(p.anomalyType && !f.expectedAnomaly) changeParts.push('Εντοπίστηκε ανωμαλία βλάστησης: '+esc(p.anomalyType)+'.');
   var whatChanged = changeParts.length ? changeParts.join(' ') : 'Καμία σημαντική μεταβολή σε σχέση με την προηγούμενη μέτρηση — τα διαθέσιμα σήματα παραμένουν σταθερά.';
 
-  /* "Προτεινόμενη ενέργεια" — derived from the same alerts used in Action Center */
+  /* Priority 3/4 — plain-language comparison to this parcel's own historical range,
+     reusing the same z-score/anomaly signals as the severity rules (no new stat invented) */
+  var histCompare;
+  if(p.anomalyType && !f.expectedAnomaly){
+    histCompare = 'Εκτός συνήθους εύρους — η βλάστηση αυτού του αγροτεμαχίου αποκλίνει από το δικό του ιστορικό (ανίχνευση ανωμαλίας, z-score) και δεν εξηγείται ως αναμενόμενη.';
+  } else if(p.anomalyType && f.expectedAnomaly){
+    histCompare = 'Εκτός συνήθους εύρους, αλλά αναμενόμενο — η απόκλιση από το ιστορικό εξηγείται (π.χ. νεόφυτο), δείτε τις σημειώσεις του αγροτεμαχίου.';
+  } else if(f.lowMoistZ){
+    histCompare = 'Η υγρασία εδάφους είναι εκτός συνήθους εύρους σε σχέση με το ιστορικό αυτής της θέσης (|z|>1.0).';
+  } else {
+    histCompare = 'Φυσιολογικό σε σχέση με το ιστορικό του αγροτεμαχίου — καμία τιμή δεν αποκλίνει σημαντικά από το δικό του εύρος.';
+  }
+
+  /* "Ερμηνεία" — one plain-language sentence, driven by the same severity classification as the Action Center */
+  var interpretation = {
+    critical: 'Χρειάζεται άμεσο οπτικό έλεγχο πεδίου — κάποιο σήμα δεν εξηγείται ως αναμενόμενο.',
+    attention: 'Υπάρχει ενεργό σήμα κινδύνου που αξίζει προσοχή τις επόμενες μέρες, αν και δεν είναι κρίσιμο αυτή τη στιγμή.',
+    monitor: 'Πιθανότατα φυσιολογικό (π.χ. νεόφυτο ή αραιή κόμη), αλλά χρειάζεται οπτική επιβεβαίωση για σιγουριά.',
+    normal: 'Δεν εντοπίζεται κανένα ανησυχητικό σήμα σε αυτό το αγροτεμάχιο αυτή τη στιγμή.'
+  }[sev];
+
+  /* "Ενέργεια" — derived from the same alerts used in Action Center */
   var actionGuidance = alerts.length
     ? alerts.map(function(a){return a.d;}).join(' ')
     : 'Δεν εντοπίζεται ενεργό σήμα σε αυτό το αγροτεμάχιο — δεν χρειάζεται ενέργεια αυτή τη στιγμή.';
@@ -1219,14 +1304,16 @@ function openDrawer(kaek){
     stateItem('Ανάγκη νερού', p.waterNeed===null||p.waterNeed===undefined?naSpan():fmt2(p.waterNeed)+' mm/ημ.', null, null)+
   '</div></div>';
 
-  html += '<div class="msec"><h4>Τι άλλαξε</h4><p class="whatchanged">'+whatChanged+'</p></div>';
+  html += '<div class="msec"><h4>Τι άλλαξε</h4><p class="whatchanged">'+whatChanged+'</p><p class="whatchanged" style="margin-top:6px;color:var(--text-dim);">'+histCompare+'</p></div>';
 
-  html += '<div class="msec"><h4>Προτεινόμενη ενέργεια</h4><div class="action-banner sev-'+sev+'"><span class="icon">'+SEV_META[sev].icon+'</span><div><div class="t">'+SEV_META[sev].label+'</div><div class="d">'+esc(actionGuidance)+'</div></div></div></div>';
+  html += '<div class="msec"><h4>Ερμηνεία</h4><p class="interp">'+interpretation+'</p></div>';
+
+  html += '<div class="msec"><h4>Ενέργεια</h4><div class="action-banner sev-'+sev+'"><span class="icon">'+SEV_META[sev].icon+'</span><div><div class="t">'+SEV_META[sev].label+'</div><div class="d">'+esc(actionGuidance)+'</div></div></div></div>';
 
   html += '<div class="msec"><h4>Επισκόπηση</h4><dl>'+
     '<dt>Καταλληλότητα θέσης</dt><dd>'+fmt2(p.suit)+'/5 · '+lbl.t+'<span class="hint">Βάσει εδάφους · κλίσης · προσανατολισμού · υγείας καλλιέργειας</span></dd>'+
     '<dt>Ζώνη απόδοσης</dt><dd>'+esc(p.zone)+'</dd>'+
-    '<dt>Δείκτης υγείας</dt><dd>'+(h===null?naSpan():h+'/100')+'<span class="hint">Παράγωγος δείκτης (NDVI+CVI), όχι ανεξάρτητη μέτρηση</span></dd>'+
+    '<dt>Δείκτης υγείας</dt><dd>'+healthGauge(h)+'</dd>'+
   '</dl></div>';
 
   html += '<div class="msec"><h4>Δορυφορικά <span class="provtag modelled">Modelled — z-score</span></h4><dl>'+
@@ -1291,8 +1378,16 @@ document.querySelectorAll('.sb-link').forEach(function(btn){
 document.getElementById('heroCtaMap').addEventListener('click', function(){ showPanel('overview'); });
 var heroCtaFieldsEl = document.getElementById('heroCtaFields');
 if(heroCtaFieldsEl) heroCtaFieldsEl.addEventListener('click', function(){
-  filterState.mode = 'alerts'; filterState.crop = '';
+  filterState.mode = 'alerts'; filterState.crop = ''; filterState.q = '';
+  var fs0 = document.getElementById('fieldSearch'); if(fs0) fs0.value = '';
   showPanel('fields');
+  renderFilters(); applyFieldsFilter();
+});
+var mapToFieldsLinkEl = document.getElementById('mapToFieldsLink');
+if(mapToFieldsLinkEl) mapToFieldsLinkEl.addEventListener('click', function(e){
+  e.preventDefault();
+  showPanel('fields');
+  document.getElementById('app').scrollIntoView({block:'start', behavior:'smooth'});
 });
 showPanel('overview');
 
@@ -1373,7 +1468,7 @@ var heroCountsHtml = [
   {k:'critical', ic:'🔴', l:'Κρίσιμα'}, {k:'attention', ic:'🟠', l:'Προσοχή'},
   {k:'monitor', ic:'🟡', l:'Παρακολούθηση'}, {k:'normal', ic:'🟢', l:'Φυσιολογικά'}
 ].map(function(s){
-  return '<div class="hs-count"><div class="icon">'+s.ic+'</div><div class="n">'+sevCounts[s.k]+'</div><div class="l">'+s.l+'</div></div>';
+  return '<div class="hs-count"><div class="icon">'+s.ic+'</div><div class="n" style="color:'+SEV_META[s.k].color+';">'+sevCounts[s.k]+'</div><div class="l">'+s.l+'</div></div>';
 }).join('');
 var heroCountsEl = document.getElementById('heroCounts');
 if(heroCountsEl) heroCountsEl.innerHTML = heroCountsHtml;

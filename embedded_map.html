@@ -707,6 +707,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
     return '<tr><td>' + label + '</td><td>' + value + '</td></tr>';
   }
 
+  var layersByKaek = {};
   var layer = L.geoJSON(geojsonData, {
     style: function (feature) {
       return { color: '#333', weight: 1.5, fillColor: feature.properties.color, fillOpacity: 0.55 };
@@ -726,8 +727,33 @@ svg.leaflet-image-layer.leaflet-interactive path {
         + (p['Σημειώσεις'] ? rowHtml('Σημειώσεις', p['Σημειώσεις']) : '')
         + '</table>';
       lyr.bindPopup(html);
+      if (p.KAEK) layersByKaek[p.KAEK] = lyr;
     }
   }).addTo(map);
+
+  // PROSTHIKI — minimal postMessage API so the parent dashboard can keep the
+  // map in sync with its own filters (search / chips / crop select), without
+  // changing anything about how the map itself loads or renders its data.
+  // Parent sends: {type:'filterParcels', kaeks:[...]}. An empty/omitted
+  // kaeks list means "no filter active" — everything is shown at full style.
+  function applyParcelFilter(kaeks) {
+    var active = Array.isArray(kaeks) && kaeks.length > 0;
+    layer.eachLayer(function (lyr) {
+      var k = lyr.feature && lyr.feature.properties && lyr.feature.properties.KAEK;
+      var match = !active || kaeks.indexOf(k) > -1;
+      if (match) {
+        lyr.setStyle({ opacity: 1, weight: 1.5, fillOpacity: 0.55 });
+        if (lyr.bringToFront) lyr.bringToFront();
+      } else {
+        lyr.setStyle({ opacity: 0.25, weight: 1, fillOpacity: 0.08 });
+      }
+    });
+  }
+  window.addEventListener('message', function (ev) {
+    var d = ev && ev.data;
+    if (!d || d.type !== 'filterParcels') return;
+    applyParcelFilter(d.kaeks);
+  });
 
   if (geojsonData.features.length) {
     map.fitBounds(layer.getBounds(), { padding: [20, 20] });
