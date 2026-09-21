@@ -447,6 +447,35 @@ select.chip-select{ font-family:var(--body); font-size:12.5px; font-weight:600; 
 .skel-action .sk-dot{ width:12px; height:12px; border-radius:50%; flex:none; }
 .skel-action .sk-t{ width:48%; margin-bottom:6px; }
 .skel-action .sk-d{ width:80%; }
+
+/* ============ MICRO-INTERACTIONS (hover/focus transitions, fade-in, theme, panel switch) ============ */
+.btn, .sb-link, .chip, select.chip-select, .view-toggle button, .modal-close,
+.rail-item, .field-row, .crop-chip, .pcard, .feat-head, .ac-cta, .field-search,
+.status-pill, .live-map-cta{
+  transition: background-color .15s ease, color .15s ease, border-color .15s ease, box-shadow .15s ease, transform .1s ease;
+}
+body, .app-shell, .sidebar, .appmain, .card, .dkpi, .action-center, .rail, .farmwide, .tablewrap, .mcard, .prov, .feat, .hero-status, nav.topnav{
+  transition: background-color .2s ease, color .2s ease, border-color .2s ease;
+}
+
+/* Fade-in for skeleton content resolving to real data */
+.fade-in{ animation: fadeIn .25s ease; }
+@keyframes fadeIn{ from{ opacity:0; } to{ opacity:1; } }
+
+/* Panel switch: gentle fade+lift on the panel that becomes visible */
+.panel-fade{ animation: panelFadeIn .22s ease; }
+@keyframes panelFadeIn{ from{ opacity:0; transform:translateY(4px); } to{ opacity:1; transform:translateY(0); } }
+
+@media (prefers-reduced-motion: reduce){
+  .btn, .sb-link, .chip, select.chip-select, .view-toggle button, .modal-close,
+  .rail-item, .field-row, .crop-chip, .pcard, .feat-head, .ac-cta, .field-search,
+  .status-pill, .live-map-cta, body, .app-shell, .sidebar, .appmain, .card, .dkpi,
+  .action-center, .rail, .farmwide, .tablewrap, .mcard, .prov, .feat, .hero-status, nav.topnav{
+    transition:none;
+  }
+  .fade-in{ animation:none; }
+  .panel-fade{ animation:none; }
+}
 </style>
 
 <nav class="topnav">
@@ -1115,6 +1144,7 @@ document.getElementById('kpiRow').innerHTML = [
   '<div class="dkpi"><div class="top"><div class="n" style="color:var(--warn)">'+dryCount+'</div></div><div class="l">Αγροτεμάχια με χαμηλή υγρασία</div><div class="ctx">έναντι ιδίου ιστορικού (|z|&gt;1.0)</div></div>',
   '<div class="dkpi"><div class="top"><div class="n accent-olive">'+avgSuit+'<span style="font-size:15px;color:var(--text-dim)">/5</span></div></div><div class="l">Μέση καταλληλότητα θέσης</div><div class="ctx">εύρος '+fmt2(suits[0])+'–'+fmt2(suits[suits.length-1])+' στα 29 αγροτεμάχια</div></div>'
 ].join('');
+document.getElementById('kpiRow').classList.add('fade-in');
 
 /* Action center — with concrete, dynamically-generated per-signal reasons */
 function pcs(n){ return n+' αγροτεμάχι'+(n===1?'ο':'α'); }
@@ -1145,6 +1175,7 @@ buckets.forEach(function(b){
 });
 acHtml += '<div class="action-item"><span class="dot">🟢</span><div class="body"><div class="t">Φυσιολογικά</div><div class="d">Κανένα από τα παραπάνω σήματα δεν είναι ενεργό.</div></div><div class="n">'+sevCounts.normal+'</div></div>';
 document.getElementById('actionList').innerHTML = acHtml;
+document.getElementById('actionList').classList.add('fade-in');
 var attentionTotal = sevCounts.critical+sevCounts.attention+sevCounts.monitor;
 if(attentionTotal>0){
   var ctaBtn = document.createElement('button');
@@ -1431,6 +1462,12 @@ function showPanel(name){
   document.querySelectorAll('.sb-link').forEach(function(btn){
     btn.setAttribute('aria-current', btn.dataset.panel===name ? 'true':'false');
   });
+  var shownPanel = document.getElementById('panel-'+name);
+  if(shownPanel){
+    shownPanel.classList.remove('panel-fade');
+    void shownPanel.offsetWidth;
+    shownPanel.classList.add('panel-fade');
+  }
 }
 document.querySelectorAll('.sb-link').forEach(function(btn){
   btn.addEventListener('click', function(){
@@ -1534,16 +1571,17 @@ var heroCountsHtml = [
   return '<div class="hs-count"><div class="icon">'+s.ic+'</div><div class="n" style="color:'+SEV_META[s.k].color+';">'+sevCounts[s.k]+'</div><div class="l">'+s.l+'</div></div>';
 }).join('');
 var heroCountsEl = document.getElementById('heroCounts');
-if(heroCountsEl) heroCountsEl.innerHTML = heroCountsHtml;
+if(heroCountsEl){ heroCountsEl.innerHTML = heroCountsHtml; heroCountsEl.classList.add('fade-in'); }
 var heroMsgEl = document.getElementById('heroAttentionMsg');
 if(heroMsgEl){
   heroMsgEl.innerHTML = attentionTotal>0
     ? '<b>'+attentionTotal+' αγροτεμάχι'+(attentionTotal===1?'ο':'α')+'</b> χρειάζ'+(attentionTotal===1?'εται':'ονται')+' προσοχή σήμερα'
     : 'Κανένα αγροτεμάχιο δεν χρειάζεται προσοχή σήμερα';
   heroMsgEl.classList.remove('skel','skel-text'); heroMsgEl.style.width=''; heroMsgEl.style.height='';
+  heroMsgEl.classList.add('fade-in');
 }
 var freshEl = document.getElementById('heroFreshnessText');
-if(freshEl){ freshEl.textContent = freshDateTxt ? ('ενημερώθηκε '+freshDateTxt) : 'στιγμιότυπο σελίδας'; freshEl.classList.remove('skel','skel-text'); freshEl.style.width=''; freshEl.style.height=''; }
+if(freshEl){ freshEl.textContent = freshDateTxt ? ('ενημερώθηκε '+freshDateTxt) : 'στιγμιότυπο σελίδας'; freshEl.classList.remove('skel','skel-text'); freshEl.style.width=''; freshEl.style.height=''; freshEl.classList.add('fade-in'); }
 var settingsFreshEl = document.getElementById('settingsFreshness');
 if(settingsFreshEl){
   settingsFreshEl.innerHTML = (LIVE_DATA_OK ? '🟢 Δεδομένα ενημερωμένα' : '🟡 Στατικό στιγμιότυπο')+
