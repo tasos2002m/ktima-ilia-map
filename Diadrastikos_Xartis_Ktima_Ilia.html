@@ -765,9 +765,10 @@ svg.leaflet-image-layer.leaflet-interactive path {
   };
   legend.addTo(map);
 
-  // PROSTHIKI (map usability pass, 2026-09-21): εντοπισμός αγροτεμαχίου μέσω
-  // dropdown — επιλογή ΚΑΕΚ κάνει fitBounds + ανοίγει το popup του, ώστε να
-  // μην χρειάζεται οπτική αναζήτηση πάνω στον χάρτη.
+  // PROSTHIKI (map usability pass, 2026-09-21, Tasos): entopismos agrotemaxiou
+  // meso dropdown - epilogi KAEK kanei fitBounds + anoigei to popup tou, wste
+  // na min xreiazetai optiki anazitisi pano ston xarti. MONIMA edo (oxi mono
+  // xeirokinito patch) - etsi paramenei se KATHE aftomati paragogi tou xarti.
   var locateCtl = L.control({ position: 'topright' });
   locateCtl.onAdd = function () {
     var div = L.DomUtil.create('div', 'leaflet-bar leaflet-control locate-ctrl');
